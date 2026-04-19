@@ -214,6 +214,9 @@ let tfState = {
 
 // ── Terraform Menu ──
 function renderTerraformMenu(){
+  const filteredHistory = getFilteredGameHistory();
+  const histCount = filteredHistory.length;
+  const histWrong = filteredHistory.filter(r=>!r.wasCorrect).length;
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">⚡</div>
@@ -244,6 +247,15 @@ function renderTerraformMenu(){
         <div class="gm-desc">Match Terraform commands to what they do.</div>
       </div>
     </div>
+
+    ${histCount>0?`<div class="section-title" style="padding:0 2px">Recent performance</div>
+    <div class="card" style="padding:10px;margin-bottom:12px;cursor:pointer" onclick="showGameHistory()">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;font-weight:500">📋 Answer History</div>
+        <div style="display:flex;gap:6px"><span class="game-score-pill" style="background:var(--pass-dim);color:var(--pass)">✓ ${histCount-histWrong}</span><span class="game-score-pill" style="background:var(--fail-dim);color:var(--fail)">✗ ${histWrong}</span></div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">Tap to review your recent answers and mistakes</div>
+    </div>`:''}
   `;
 }
 
@@ -449,6 +461,9 @@ let k8sState = {
 
 // ── Kubernetes Menu ──
 function renderK8sMenu(){
+  const filteredHistory = getFilteredGameHistory();
+  const histCount = filteredHistory.length;
+  const histWrong = filteredHistory.filter(r=>!r.wasCorrect).length;
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">🎪</div>
@@ -479,6 +494,15 @@ function renderK8sMenu(){
         <div class="gm-desc">Match resource names to their descriptions.</div>
       </div>
     </div>
+
+    ${histCount>0?`<div class="section-title" style="padding:0 2px">Recent performance</div>
+    <div class="card" style="padding:10px;margin-bottom:12px;cursor:pointer" onclick="showGameHistory()">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;font-weight:500">📋 Answer History</div>
+        <div style="display:flex;gap:6px"><span class="game-score-pill" style="background:var(--pass-dim);color:var(--pass)">✓ ${histCount-histWrong}</span><span class="game-score-pill" style="background:var(--fail-dim);color:var(--fail)">✗ ${histWrong}</span></div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">Tap to review your recent answers and mistakes</div>
+    </div>`:''}
   `;
 }
 

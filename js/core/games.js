@@ -221,14 +221,34 @@ function recordGameAnswer(mode, question, userAns, correctAns, wasCorrect) {
 }
 function showGameHistory() {
   const area = document.getElementById('game-area');
-  const recent = [...gameHistory].reverse().slice(0, 50);
+  
+  // Filter history based on current exam
+  let filteredHistory = gameHistory;
+  let backFunction = 'renderGameMenu()';
+  if (currentExam === 'tf-games') {
+    filteredHistory = gameHistory.filter(r => r.mode.startsWith('TF '));
+    backFunction = 'renderTerraformMenu()';
+  } else if (currentExam === 'k8s-games') {
+    filteredHistory = gameHistory.filter(r => r.mode.startsWith('K8s '));
+    backFunction = 'renderK8sMenu()';
+  } else if (currentExam === 'ref') {
+    // For ref, show AWS games but not TF or K8s
+    filteredHistory = gameHistory.filter(r => !r.mode.startsWith('TF ') && !r.mode.startsWith('K8s '));
+    backFunction = 'renderRefMenu()';
+  } else {
+    // For 'game' and others, show AWS games
+    filteredHistory = gameHistory.filter(r => !r.mode.startsWith('TF ') && !r.mode.startsWith('K8s '));
+    backFunction = 'renderGameMenu()';
+  }
+  
+  const recent = [...filteredHistory].reverse().slice(0, 50);
   if(!recent.length){
-    area.innerHTML=`<button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Menu</button><div class="empty"><div class="empty-icon">📋</div>No game answers recorded yet.<br>Play any game to start building your history.</div>`;
+    area.innerHTML=`<button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="${backFunction}">← Menu</button><div class="empty"><div class="empty-icon">📋</div>No game answers recorded yet.<br>Play any game to start building your history.</div>`;
     return;
   }
   const wrong = recent.filter(r=>!r.wasCorrect);
   area.innerHTML=`
-    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Menu</button>
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="${backFunction}">← Menu</button>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <div style="font-size:15px;font-weight:600">Answer History</div>
       <div style="display:flex;gap:6px">
@@ -249,10 +269,22 @@ function showGameHistory() {
     </div>`;
 }
 
+function getFilteredGameHistory() {
+  if (currentExam === 'tf-games') {
+    return gameHistory.filter(r => r.mode.startsWith('TF '));
+  } else if (currentExam === 'k8s-games') {
+    return gameHistory.filter(r => r.mode.startsWith('K8s '));
+  } else {
+    // For 'game', 'ref', and others, show AWS games
+    return gameHistory.filter(r => !r.mode.startsWith('TF ') && !r.mode.startsWith('K8s '));
+  }
+}
+
 function renderGameMenu(){
   try{gameState.quizBest=parseInt(localStorage.getItem('awsgame_best'))||0;}catch(e){}
-  const histCount = gameHistory.length;
-  const histWrong = gameHistory.filter(r=>!r.wasCorrect).length;
+  const filteredHistory = getFilteredGameHistory();
+  const histCount = filteredHistory.length;
+  const histWrong = filteredHistory.filter(r=>!r.wasCorrect).length;
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">🎮</div>
@@ -305,8 +337,9 @@ function renderGameMenu(){
 
 
 function renderRefMenu(){
-  const histCount = gameHistory.length;
-  const histWrong = gameHistory.filter(r=>!r.wasCorrect).length;
+  const filteredHistory = getFilteredGameHistory();
+  const histCount = filteredHistory.length;
+  const histWrong = filteredHistory.filter(r=>!r.wasCorrect).length;
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">📚</div>
