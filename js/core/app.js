@@ -10,6 +10,7 @@ const EXAMS = {
   saa: { name:'Solutions Architect', code:'SAA-C03', color:'--saa', btnClass:'btn-saa', fillClass:'fill-saa', questions: SAA_QUESTIONS },
   dva: { name:'Developer Associate', code:'DVA-C02', color:'--dva', btnClass:'btn-dva', fillClass:'fill-dva', questions: DVA_QUESTIONS },
   terraform: { name:'Terraform Associate', code:'TA-003', color:'--terraform', btnClass:'btn-terraform', fillClass:'fill-terraform', questions: typeof TERRAFORM_QUESTIONS !== 'undefined' ? TERRAFORM_QUESTIONS : [] },
+  ckad: { name:'Kubernetes CKAD', code:'CKAD', color:'--ckad', btnClass:'btn-ckad', fillClass:'fill-ckad', questions: typeof CKAD_QUESTIONS !== 'undefined' ? CKAD_QUESTIONS : [] },
   all: { name:'Combined Practice', code:'ALL', color:'--all', btnClass:'btn-all', fillClass:'fill-all', questions: [] },
   game: { name:'AWS Games', code:'GAME', color:'--game', btnClass:'btn-game', fillClass:'fill-game', questions: [] }
 };
@@ -34,6 +35,7 @@ function selectCert(cert) {
     saa:{icon:'🏗️',name:'AWS Solutions Architect'},
     dva:{icon:'⚙️',name:'AWS Developer Associate'},
     terraform:{icon:'🔧',name:'Terraform Associate'},
+    ckad:{icon:'☸️',name:'Kubernetes CKAD'},
     all:{icon:'🔀',name:'AWS Combined Practice'}
   };
   const d = map[cert];
@@ -64,9 +66,10 @@ switchExam('game');           // start on games screen
 
 console.log('✅ Multi-Cert Study Hub loaded');
 console.log('📚 Questions:', {
-  CCP: EXAMS.ccp.questions.length,
-  SAA: EXAMS.saa.questions.length,
-  DVA: EXAMS.dva.questions.length,
-  TF:  EXAMS.terraform.questions.length,
-  All: EXAMS.all.questions.length
+  CCP:  EXAMS.ccp.questions.length,
+  SAA:  EXAMS.saa.questions.length,
+  DVA:  EXAMS.dva.questions.length,
+  TF:   EXAMS.terraform.questions.length,
+  CKAD: EXAMS.ckad.questions.length,
+  All:  EXAMS.all.questions.length
 });

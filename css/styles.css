@@ -9,6 +9,7 @@
   --saa:#00bcd4;--saa-dim:#002a30;--saa-mid:#00606e;
   --dva:#7c4dff;--dva-dim:#1a0a40;--dva-mid:#4a2ab0;
   --terraform:#7B42BC;--terraform-dim:#1a0a2a;--terraform-mid:#5a3290;
+  --ckad:#326CE5;--ckad-dim:#071540;--ckad-mid:#1a3d9e;
   --all:#4caf50;--all-dim:#0a2010;--all-mid:#266028;
   --game:#e91e8c;--game-dim:#2a0518;--game-mid:#8a1055;
   --pass:#4caf50;--pass-dim:#0a2010;
@@ -25,6 +26,7 @@ body.light {
   --saa-dim:#e0f7fa;--saa-mid:#006080;
   --dva-dim:#ede7f6;--dva-mid:#4527a0;
   --terraform-dim:#f3e5f5;--terraform-mid:#4a148c;
+  --ckad-dim:#e8eeff;--ckad-mid:#1a3d9e;
   --all-dim:#e8f5e9;--all-mid:#1b5e20;
   --game-dim:#fce4ec;--game-mid:#880e4f;
   --pass-dim:#e8f5e9;
@@ -210,12 +212,13 @@ h1,h2,h3 {
 .exam-tab.active-saa {color:var(--saa);border-color:var(--saa)}
 .exam-tab.active-dva {color:var(--dva);border-color:var(--dva)}
 .exam-tab.active-terraform {color:var(--terraform);border-color:var(--terraform)}
+.exam-tab.active-ckad {color:var(--ckad);border-color:var(--ckad)}
 .exam-tab.active-all {color:var(--all);border-color:var(--all)}
 .exam-tab.active-game {color:var(--game);border-color:var(--game)}
 
 /* ── APP HEADER ── */
 .app-header {
-  padding:16px 16px 0;
+  padding:16px 16px 1px;
   background:var(--surface);
 }
 
@@ -274,6 +277,7 @@ h1,h2,h3 {
 .nav-btn.active.saa {color:var(--saa)}
 .nav-btn.active.dva {color:var(--dva)}
 .nav-btn.active.terraform {color:var(--terraform)}
+.nav-btn.active.ckad {color:var(--ckad)}
 .nav-btn.active.all {color:var(--all)}
 .nav-btn.active.game {color:var(--game)}
 
@@ -315,6 +319,7 @@ h1,h2,h3 {
 .b-saa {background:var(--saa-dim);color:var(--saa);border:1px solid var(--saa-mid)}
 .b-dva {background:var(--dva-dim);color:var(--dva);border:1px solid var(--dva-mid)}
 .b-terraform {background:var(--terraform-dim);color:var(--terraform);border:1px solid var(--terraform-mid)}
+.b-ckad {background:var(--ckad-dim);color:var(--ckad);border:1px solid var(--ckad-mid)}
 .b-all {background:var(--all-dim);color:var(--all);border:1px solid var(--all-mid)}
 .b-game {background:var(--game-dim);color:var(--game);border:1px solid var(--game-mid)}
 .b-pass {background:var(--pass-dim);color:var(--pass)}
@@ -418,6 +423,7 @@ h1,h2,h3 {
 .btn-saa {background:var(--saa);color:#000;border-color:var(--saa);font-weight:600}
 .btn-dva {background:var(--dva);color:#fff;border-color:var(--dva);font-weight:600}
 .btn-terraform {background:var(--terraform);color:#fff;border-color:var(--terraform);font-weight:600}
+.btn-ckad {background:var(--ckad);color:#fff;border-color:var(--ckad);font-weight:600}
 .btn-all {background:var(--all);color:#000;border-color:var(--all);font-weight:600}
 .btn-game {background:var(--game);color:#fff;border-color:var(--game);font-weight:600}
 .btn-ghost {background:var(--surface2)}
@@ -442,6 +448,7 @@ h1,h2,h3 {
 .fill-saa {background:var(--saa)}
 .fill-dva {background:var(--dva)}
 .fill-terraform {background:var(--terraform)}
+.fill-ckad {background:var(--ckad)}
 .fill-all {background:var(--all)}
 .fill-game {background:var(--game)}
 
