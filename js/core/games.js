@@ -257,7 +257,7 @@ function renderGameMenu(){
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">🎮</div>
       <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS Games</div>
-      <div style="font-size:12px;color:var(--text2)">CCP · SAA · Support Plans · Architecture</div>
+      <div style="font-size:12px;color:var(--text2)">CCP · SAA · DVA · Support Plans · Architecture</div>
       <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;flex-wrap:wrap">
         ${gameState.quizBest>0?`<span class="badge b-game">🏆 Best streak: ${gameState.quizBest}</span>`:''}
         ${histCount>0?`<span class="badge b-neutral" style="cursor:pointer" onclick="showGameHistory()">📋 ${histCount} answers · ${histWrong} wrong</span>`:''}
@@ -271,7 +271,7 @@ function renderGameMenu(){
     <div class="section-title" style="padding:0 2px;margin-top:12px">Service knowledge games</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
       <div class="game-mode-btn" onclick="startGame('quiz')"><div class="gm-icon">⚡</div><div class="gm-name">Service Quiz</div><div class="gm-desc">Identify services from descriptions. Build your streak!</div></div>
-      <div class="game-mode-btn" onclick="startGame('flash')"><div class="gm-icon">🃏</div><div class="gm-name">Flashcards</div><div class="gm-desc">Flip cards for CCP, SAA or Support tiers.</div></div>
+      <div class="game-mode-btn" onclick="startGame('flash')"><div class="gm-icon">🃏</div><div class="gm-name">Flashcards</div><div class="gm-desc">Flip cards for CCP, SAA, DVA or Support tiers.</div></div>
       <div class="game-mode-btn" onclick="startGame('match')"><div class="gm-icon">🔗</div><div class="gm-name">Match-Up</div><div class="gm-desc">Pair service names to descriptions. Beat the clock.</div></div>
       <div class="game-mode-btn" onclick="startGame('speed')"><div class="gm-icon">🏎️</div><div class="gm-name">Speed Round</div><div class="gm-desc">3 lives, 8 seconds per question. How far can you go?</div></div>
     </div>
@@ -311,7 +311,7 @@ function renderRefMenu(){
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">📚</div>
       <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS References</div>
-      <div style="font-size:12px;color:var(--text2)">Reference guides &amp; targeted quizzes</div>
+      <div style="font-size:12px;color:var(--text2)">Reference guides &amp; Support plans</div>
     </div>
 
     <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
@@ -392,7 +392,8 @@ function showQuizFilter(){
       <div style="display:flex;flex-direction:column;gap:8px">
         <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchQuiz('ccp')">☁️ <strong>CCP</strong> — Cloud Practitioner services only</button>
         <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchQuiz('saa')">🏗️ <strong>SAA</strong> — Solutions Architect services only</button>
-        <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchQuiz('all')">🔀 <strong>All</strong> — CCP + SAA combined</button>
+        <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchQuiz('dva')">⚙️ <strong>DVA</strong> — Developer Associate services only</button>
+        <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchQuiz('all')">🔀 <strong>All</strong> — CCP + SAA + DVA combined</button>
       </div>
     </div>`;
 }
@@ -406,8 +407,9 @@ function showFlashFilter(){
       <div style="display:flex;flex-direction:column;gap:8px">
         <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchFlash('ccp')">☁️ <strong>CCP</strong> services (49 cards)</button>
         <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchFlash('saa')">🏗️ <strong>SAA</strong> services (21 cards)</button>
+        <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchFlash('dva')">⚙️ <strong>DVA</strong> services (8 cards)</button>
         <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchFlash('support')">🎧 <strong>Support Plans</strong> (5 cards)</button>
-        <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchFlash('all')">🔀 <strong>Everything</strong> combined (75 cards)</button>
+        <button class="btn btn-ghost" style="padding:12px;text-align:left" onclick="launchFlash('all')">🔀 <strong>Everything</strong> combined (83 cards)</button>
       </div>
     </div>`;
 }

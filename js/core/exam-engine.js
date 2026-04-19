@@ -52,6 +52,10 @@ function switchExam(exam) {
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('screen-game').classList.add('active');
     window.scrollTo(0,0);
+    // Update dropdown to show Games as selected
+    document.getElementById('selected-cert-icon').textContent = '🎮';
+    document.getElementById('selected-cert-name').textContent = 'AWS Games';
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'game'));
     renderGameMenu();
     return;
   }
@@ -60,6 +64,10 @@ function switchExam(exam) {
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('screen-game').classList.add('active');
     window.scrollTo(0,0);
+    // Update dropdown to show References as selected
+    document.getElementById('selected-cert-icon').textContent = '📚';
+    document.getElementById('selected-cert-name').textContent = 'AWS References';
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'ref'));
     renderRefMenu();
     return;
   }
@@ -448,6 +456,15 @@ const AWS_SERVICES = [
   {name:'Amazon DAX',icon:'⚡',desc:'In-memory cache for DynamoDB with microsecond latency',category:'Database',level:'saa'},
   {name:'AWS Cloud Map',icon:'🗺️',desc:'Service discovery for cloud resources',category:'Networking',level:'saa'},
   {name:'Amazon ECR',icon:'📦',desc:'Managed container image registry',category:'DevOps',level:'saa'},
+  // DVA additions
+  {name:'AWS App Runner',icon:'🏃',desc:'Deploy containerized web apps from source code automatically',category:'Compute',level:'dva'},
+  {name:'AWS Amplify',icon:'⚡',desc:'Build and deploy full-stack web and mobile apps',category:'DevOps',level:'dva'},
+  {name:'AWS CodeArtifact',icon:'📦',desc:'Managed artifact repository for software packages',category:'DevOps',level:'dva'},
+  {name:'AWS CodeStar',icon:'⭐',desc:'Unified UI for developing, building, and deploying applications',category:'DevOps',level:'dva'},
+  {name:'AWS Proton',icon:'⚛️',desc:'Managed service for deploying infrastructure templates',category:'DevOps',level:'dva'},
+  {name:'Amazon Bedrock',icon:'🛏️',desc:'Access foundation models for generative AI applications',category:'AI/ML',level:'dva'},
+  {name:'AWS Systems Manager',icon:'⚙️',desc:'Operational management for EC2 and on-premises systems',category:'Management',level:'dva'},
+  {name:'AWS AppConfig',icon:'⚙️',desc:'Manage application configuration with feature flags',category:'Management',level:'dva'},
 ];
 
 const SUPPORT_PLANS = [
