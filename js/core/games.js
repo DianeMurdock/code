@@ -256,12 +256,16 @@ function renderGameMenu(){
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">🎮</div>
-      <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS Games & Reference</div>
+      <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS Games</div>
       <div style="font-size:12px;color:var(--text2)">CCP · SAA · Support Plans · Architecture</div>
       <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;flex-wrap:wrap">
         ${gameState.quizBest>0?`<span class="badge b-game">🏆 Best streak: ${gameState.quizBest}</span>`:''}
         ${histCount>0?`<span class="badge b-neutral" style="cursor:pointer" onclick="showGameHistory()">📋 ${histCount} answers · ${histWrong} wrong</span>`:''}
       </div>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 14px" onclick="switchExam('ref')">📚 References & Quizzes →</button>
     </div>
 
     <div class="section-title" style="padding:0 2px;margin-top:12px">Service knowledge games</div>
@@ -280,14 +284,6 @@ function renderGameMenu(){
       <div class="game-mode-btn" onclick="startGame('support')"><div class="gm-icon">🎧</div><div class="gm-name">Support Plans Quiz</div><div class="gm-desc">Response times, TAMs, features across all 5 tiers.</div></div>
     </div>
 
-    <div class="section-title" style="padding:0 2px">New: reference quizzes</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-      <div class="game-mode-btn" onclick="startGame('dbquiz')"><div class="gm-icon">🗄️</div><div class="gm-name">Database Chooser</div><div class="gm-desc">Which DB fits the scenario? RDS, DynamoDB, Neptune...</div></div>
-      <div class="game-mode-btn" onclick="startGame('storagequiz')"><div class="gm-icon">💾</div><div class="gm-name">Storage Chooser</div><div class="gm-desc">S3, EBS, EFS, Glacier — when to use which?</div></div>
-      <div class="game-mode-btn" onclick="startGame('iamquiz')"><div class="gm-icon">🔑</div><div class="gm-name">IAM Challenge</div><div class="gm-desc">Users, roles, policies, SCPs — test your IAM knowledge.</div></div>
-      <div class="game-mode-btn" onclick="startGame('srmquiz')"><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS or customer? Test who owns each security task.</div></div>
-    </div>
-
     ${histCount>0?`<div class="section-title" style="padding:0 2px">Recent performance</div>
     <div class="card" style="padding:10px;margin-bottom:12px;cursor:pointer" onclick="showGameHistory()">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -296,6 +292,30 @@ function renderGameMenu(){
       </div>
       <div style="font-size:12px;color:var(--text2);margin-top:4px">Tap to review your recent answers and mistakes</div>
     </div>`:''}
+`;
+}
+
+
+function renderRefMenu(){
+  const histCount = gameHistory.length;
+  const histWrong = gameHistory.filter(r=>!r.wasCorrect).length;
+  document.getElementById('game-area').innerHTML=`
+    <div class="card" style="text-align:center;padding:12px 16px 10px">
+      <div style="font-size:28px;margin-bottom:3px">📚</div>
+      <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS References</div>
+      <div style="font-size:12px;color:var(--text2)">Reference guides &amp; targeted quizzes</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+        <button class="btn btn-game" style="font-size:12px;padding:6px 14px" onclick="switchExam('game')">🎮 Games →</button>
+      </div>
+    </div>
+
+    <div class="section-title" style="padding:0 2px;margin-top:12px">Reference quizzes</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="game-mode-btn" onclick="startGame('dbquiz')"><div class="gm-icon">🗄️</div><div class="gm-name">Database Chooser</div><div class="gm-desc">Which DB fits the scenario? RDS, DynamoDB, Neptune...</div></div>
+      <div class="game-mode-btn" onclick="startGame('storagequiz')"><div class="gm-icon">💾</div><div class="gm-name">Storage Chooser</div><div class="gm-desc">S3, EBS, EFS, Glacier — when to use which?</div></div>
+      <div class="game-mode-btn" onclick="startGame('iamquiz')"><div class="gm-icon">🔑</div><div class="gm-name">IAM Challenge</div><div class="gm-desc">Users, roles, policies, SCPs — test your IAM knowledge.</div></div>
+      <div class="game-mode-btn" onclick="startGame('srmquiz')"><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS or customer? Test who owns each security task.</div></div>
+    </div>
 
     <div class="section-title" style="padding:0 2px">Reference guides</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
@@ -313,15 +333,24 @@ function renderGameMenu(){
         <div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${p.response.biz_critical!=='N/A'?p.response.biz_critical+' critical':'No tech support'}</div>
         <div style="color:var(--text3)">›</div>
       </div>`).join('')}
-    </div>`;
-}
+    </div>
 
+    ${histCount>0?`<div class="section-title" style="padding:0 2px;margin-top:12px">Recent performance</div>
+    <div class="card" style="padding:10px;margin-bottom:12px;cursor:pointer" onclick="showGameHistory()">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;font-weight:500">📋 Answer History</div>
+        <div style="display:flex;gap:6px"><span class="game-score-pill" style="background:var(--pass-dim);color:var(--pass)">✓ ${histCount-histWrong}</span><span class="game-score-pill" style="background:var(--fail-dim);color:var(--fail)">✗ ${histWrong}</span></div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">Tap to review your recent answers and mistakes</div>
+    </div>`:''}
+  `;
+}
 
 function showSupportDetail(name){
   const p=SUPPORT_PLANS.find(x=>x.name===name); if(!p)return;
   const rows=[['General guidance',p.response.general],['System impaired',p.response.sys_impaired],['Production impaired',p.response.prod_impaired],['Production down',p.response.prod_down],['Business critical',p.response.biz_critical]];
   document.getElementById('game-area').innerHTML=`
-    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Back to Games</button>
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
     <div class="game-card" style="text-align:left;padding:16px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="font-size:32px">${p.icon}</div><div><div style="font-size:18px;font-weight:600">${p.name} Support</div><div style="font-size:12px;color:var(--text2)">${p.price}</div></div></div>
       <div class="section-title">Response time SLAs</div>
@@ -334,7 +363,7 @@ function showSupportDetail(name){
         <span class="badge ${p.concierge?'b-pass':'b-neutral'}">${p.concierge?'✓':'✗'} Concierge Team</span>
       </div>
     </div>
-    <button class="btn btn-game" style="width:100%;margin-top:10px" onclick="startGame('support')">Quiz me on Support Plans →</button>`;
+    <button class="btn btn-ref" style="width:100%;margin-top:10px" onclick="startGame('support')">Quiz me on Support Plans →</button>`;
 }
 
 function startGame(mode){
@@ -702,10 +731,10 @@ function renderSpeedEnd(){
 function showDbReference() {
   const area = document.getElementById('game-area');
   area.innerHTML = `
-    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Back to Games</button>
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
       <div style="font-size:15px;font-weight:600">AWS Databases</div>
-      <button class="btn btn-game" style="font-size:12px;padding:6px 12px" onclick="startGame('dbquiz')">Quiz me ⚡</button>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('dbquiz')">Quiz me ⚡</button>
     </div>
     ${DB_TYPES.map(db=>`
       <div class="card" style="padding:14px;margin-bottom:10px">
@@ -731,10 +760,10 @@ function showDbReference() {
 function showStorageReference() {
   const area = document.getElementById('game-area');
   area.innerHTML = `
-    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Back to Games</button>
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
       <div style="font-size:15px;font-weight:600">AWS Storage</div>
-      <button class="btn btn-game" style="font-size:12px;padding:6px 12px" onclick="startGame('storagequiz')">Quiz me ⚡</button>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('storagequiz')">Quiz me ⚡</button>
     </div>
     ${STORAGE_TYPES.map(st=>`
       <div class="card" style="padding:14px;margin-bottom:10px">
@@ -757,10 +786,10 @@ function showStorageReference() {
 function showIAMReference() {
   const area = document.getElementById('game-area');
   area.innerHTML = `
-    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Back to Games</button>
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
       <div style="font-size:15px;font-weight:600">AWS IAM Deep Dive</div>
-      <button class="btn btn-game" style="font-size:12px;padding:6px 12px" onclick="startGame('iamquiz')">Quiz me ⚡</button>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('iamquiz')">Quiz me ⚡</button>
     </div>
     <div class="card" style="padding:12px;margin-bottom:10px;background:var(--surface2)">
       <div style="font-size:12px;color:var(--text2);line-height:1.6">IAM (Identity and Access Management) controls <strong>who</strong> can access AWS (authentication) and <strong>what</strong> they can do (authorization). The golden rule: <strong>explicit Deny &gt; explicit Allow &gt; implicit Deny</strong>.</div>
@@ -787,10 +816,10 @@ function showSRMReference() {
   const area = document.getElementById('game-area');
   const srm = SHARED_RESPONSIBILITY;
   area.innerHTML = `
-    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderGameMenu()">← Back to Games</button>
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
       <div style="font-size:15px;font-weight:600">Shared Responsibility Model</div>
-      <button class="btn btn-game" style="font-size:12px;padding:6px 12px" onclick="startGame('srmquiz')">Quiz me ⚡</button>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('srmquiz')">Quiz me ⚡</button>
     </div>
     <div class="card" style="padding:12px;margin-bottom:10px;background:var(--surface2)">
       <div style="font-size:12px;color:var(--text2);line-height:1.6">AWS and customers share security responsibilities. The boundary shifts depending on the service model: <strong>IaaS (EC2)</strong> — more customer responsibility; <strong>Managed services (RDS, Lambda, S3)</strong> — AWS takes on more.</div>
@@ -854,7 +883,7 @@ function renderDbQ(){
   g._currentOpts=opts; g._currentCorrect=correct;
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderRefMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px"><div style="font-size:24px;margin-bottom:8px">🗄️</div><div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div></div>
@@ -879,7 +908,7 @@ function renderDbEnd(){
   const g=dbQuizState,pct=Math.round(g.score/g.deck.length*100);
   document.getElementById('game-area').innerHTML=`
     <div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('dbquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showDbReference()">Study Databases</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+    <div class="btn-row" style="margin-top:10px"><button class="btn btn-ref" onclick="startGame('dbquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showDbReference()">Study Databases</button><button class="btn btn-ghost" onclick="renderRefMenu()">Menu</button></div>`;
 }
 
 // ── Storage Chooser Quiz ──
@@ -909,7 +938,7 @@ function renderStorageQ(){
   g._currentOpts=opts; g._currentCorrect=correct;
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderRefMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px"><div style="font-size:24px;margin-bottom:8px">💾</div><div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div></div>
@@ -934,7 +963,7 @@ function renderStorageEnd(){
   const g=storageQuizState,pct=Math.round(g.score/g.deck.length*100);
   document.getElementById('game-area').innerHTML=`
     <div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('storagequiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showStorageReference()">Study Storage</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+    <div class="btn-row" style="margin-top:10px"><button class="btn btn-ref" onclick="startGame('storagequiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showStorageReference()">Study Storage</button><button class="btn btn-ghost" onclick="renderRefMenu()">Menu</button></div>`;
 }
 
 // ── IAM Quiz ──
@@ -963,7 +992,7 @@ function renderIAMQ(){
   g._currentOpts=opts; g._currentCorrect=correct;
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderRefMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px"><div style="font-size:24px;margin-bottom:8px">🔑</div><div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div></div>
@@ -988,7 +1017,7 @@ function renderIAMEnd(){
   const g=iamQuizState,pct=Math.round(g.score/g.deck.length*100);
   document.getElementById('game-area').innerHTML=`
     <div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('iamquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showIAMReference()">Study IAM</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+    <div class="btn-row" style="margin-top:10px"><button class="btn btn-ref" onclick="startGame('iamquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showIAMReference()">Study IAM</button><button class="btn btn-ghost" onclick="renderRefMenu()">Menu</button></div>`;
 }
 
 // ── Shared Responsibility Quiz ──
@@ -1019,7 +1048,7 @@ function renderSRMQ(){
   g._currentOpts=opts; g._currentCorrect=correct;
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderRefMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px"><div style="font-size:24px;margin-bottom:8px">🤝</div><div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div></div>
@@ -1044,5 +1073,5 @@ function renderSRMEnd(){
   const g=srmQuizState,pct=Math.round(g.score/g.deck.length*100);
   document.getElementById('game-area').innerHTML=`
     <div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div>
-    <div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('srmquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showSRMReference()">Study SRM</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+    <div class="btn-row" style="margin-top:10px"><button class="btn btn-ref" onclick="startGame('srmquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showSRMReference()">Study SRM</button><button class="btn btn-ghost" onclick="renderRefMenu()">Menu</button></div>`;
 }

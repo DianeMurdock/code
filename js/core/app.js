@@ -12,10 +12,12 @@ const EXAMS = {
   terraform: { name:'Terraform Associate', code:'TA-003', color:'--terraform', btnClass:'btn-terraform', fillClass:'fill-terraform', questions: typeof TERRAFORM_QUESTIONS !== 'undefined' ? TERRAFORM_QUESTIONS : [] },
   ckad: { name:'Kubernetes CKAD', code:'CKAD', color:'--ckad', btnClass:'btn-ckad', fillClass:'fill-ckad', questions: typeof CKAD_QUESTIONS !== 'undefined' ? CKAD_QUESTIONS : [] },
   all: { name:'Combined Practice', code:'ALL', color:'--all', btnClass:'btn-all', fillClass:'fill-all', questions: [] },
-  game: { name:'AWS Games', code:'GAME', color:'--game', btnClass:'btn-game', fillClass:'fill-game', questions: [] }
+  game: { name:'AWS Games', code:'GAME', color:'--game', btnClass:'btn-game', fillClass:'fill-game', questions: [] },
+  ref:  { name:'AWS References', code:'REF', color:'--ref', btnClass:'btn-ref', fillClass:'fill-ref', questions: [] }
 };
 EXAMS.all.questions = [...CCP_QUESTIONS, ...SAA_QUESTIONS, ...DVA_QUESTIONS].filter((q,i,arr) => arr.findIndex(x=>x.id===q.id)===i);
 EXAMS.game.questions = EXAMS.all.questions;
+EXAMS.ref.questions  = EXAMS.all.questions;
 
 // ═══════════════════════════════════════════
 // CERTIFICATION DROPDOWN
@@ -31,6 +33,7 @@ function toggleCertDropdown() {
 function selectCert(cert) {
   const map = {
     game:{icon:'🎮',name:'AWS Games'},
+    ref:{icon:'📚',name:'AWS References'},
     ccp:{icon:'☁️',name:'AWS Cloud Practitioner'},
     saa:{icon:'🏗️',name:'AWS Solutions Architect'},
     dva:{icon:'⚙️',name:'AWS Developer Associate'},

@@ -53,6 +53,14 @@ function switchExam(exam) {
     renderGameMenu();
     return;
   }
+  if(exam==='ref'){
+    document.getElementById('mainNav').style.display='none';
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-game').classList.add('active');
+    window.scrollTo(0,0);
+    renderRefMenu();
+    return;
+  }
   document.getElementById('mainNav').style.display='flex';
   populateDomainSelects();
   showScreen('home');

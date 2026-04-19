@@ -12,6 +12,7 @@
   --ckad:#326CE5;--ckad-dim:#071540;--ckad-mid:#1a3d9e;
   --all:#4caf50;--all-dim:#0a2010;--all-mid:#266028;
   --game:#e91e8c;--game-dim:#2a0518;--game-mid:#8a1055;
+  --ref:#0288d1;--ref-dim:#001a2a;--ref-mid:#015f8a;
   --pass:#4caf50;--pass-dim:#0a2010;
   --fail:#f44336;--fail-dim:#2a0a08;
   --radius:10px;--radius-sm:6px;
@@ -29,6 +30,7 @@ body.light {
   --ckad-dim:#e8eeff;--ckad-mid:#1a3d9e;
   --all-dim:#e8f5e9;--all-mid:#1b5e20;
   --game-dim:#fce4ec;--game-mid:#880e4f;
+  --ref-dim:#e1f5fe;--ref-mid:#0277bd;
   --pass-dim:#e8f5e9;
   --fail-dim:#ffebee;
 }
@@ -215,6 +217,7 @@ h1,h2,h3 {
 .exam-tab.active-ckad {color:var(--ckad);border-color:var(--ckad)}
 .exam-tab.active-all {color:var(--all);border-color:var(--all)}
 .exam-tab.active-game {color:var(--game);border-color:var(--game)}
+.exam-tab.active-ref {color:var(--ref);border-color:var(--ref)}
 
 /* ── APP HEADER ── */
 .app-header {
@@ -426,6 +429,7 @@ h1,h2,h3 {
 .btn-ckad {background:var(--ckad);color:#fff;border-color:var(--ckad);font-weight:600}
 .btn-all {background:var(--all);color:#000;border-color:var(--all);font-weight:600}
 .btn-game {background:var(--game);color:#fff;border-color:var(--game);font-weight:600}
+.btn-ref {background:var(--ref);color:#fff;border-color:var(--ref);font-weight:600}
 .btn-ghost {background:var(--surface2)}
 .btn-ghost:active {background:var(--surface3)}
 .btn-row {display:flex;gap:8px;flex-wrap:wrap}
@@ -451,6 +455,7 @@ h1,h2,h3 {
 .fill-ckad {background:var(--ckad)}
 .fill-all {background:var(--all)}
 .fill-game {background:var(--game)}
+.fill-ref {background:var(--ref)}
 
 /* ── STATS GRID ── */
 .stat-grid {
