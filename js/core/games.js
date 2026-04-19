@@ -265,7 +265,7 @@ function renderGameMenu(){
     </div>
 
     <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
-      <button class="btn btn-ref" style="font-size:12px;padding:6px 14px" onclick="switchExam('ref')">📚 References & Quizzes →</button>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 14px" onclick="switchExam('ref')">📚 References →</button>
     </div>
 
     <div class="section-title" style="padding:0 2px;margin-top:12px">Service knowledge games</div>
@@ -276,12 +276,20 @@ function renderGameMenu(){
       <div class="game-mode-btn" onclick="startGame('speed')"><div class="gm-icon">🏎️</div><div class="gm-name">Speed Round</div><div class="gm-desc">3 lives, 8 seconds per question. How far can you go?</div></div>
     </div>
 
-    <div class="section-title" style="padding:0 2px">Architecture & exam games</div>
+    <div class="section-title" style="padding:0 2px">Architecture games</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
       <div class="game-mode-btn" onclick="startGame('scenario')"><div class="gm-icon">🏗️</div><div class="gm-name">Build the Architecture</div><div class="gm-desc">Pick the right service for each layer of a scenario.</div></div>
       <div class="game-mode-btn" onclick="startGame('wa')"><div class="gm-icon">🏛️</div><div class="gm-name">Well-Architected</div><div class="gm-desc">Match services and principles to the 6 pillars.</div></div>
       <div class="game-mode-btn" onclick="startGame('truthy')"><div class="gm-icon">✅</div><div class="gm-name">True or False</div><div class="gm-desc">65 statements — CCP, SAA and Support plans.</div></div>
       <div class="game-mode-btn" onclick="startGame('support')"><div class="gm-icon">🎧</div><div class="gm-name">Support Plans Quiz</div><div class="gm-desc">Response times, TAMs, features across all 5 tiers.</div></div>
+    </div>
+
+    <div class="section-title" style="padding:0 2px">Bonus quizzes</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="game-mode-btn" onclick="startGame('dbquiz')"><div class="gm-icon">🗄️</div><div class="gm-name">Database Chooser</div><div class="gm-desc">Which DB fits the scenario? RDS, DynamoDB, Neptune...</div></div>
+      <div class="game-mode-btn" onclick="startGame('storagequiz')"><div class="gm-icon">💾</div><div class="gm-name">Storage Chooser</div><div class="gm-desc">S3, EBS, EFS, Glacier — when to use which?</div></div>
+      <div class="game-mode-btn" onclick="startGame('iamquiz')"><div class="gm-icon">🔑</div><div class="gm-name">IAM Challenge</div><div class="gm-desc">Users, roles, policies, SCPs — test your IAM knowledge.</div></div>
+      <div class="game-mode-btn" onclick="startGame('srmquiz')"><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS or customer? Test who owns each security task.</div></div>
     </div>
 
     ${histCount>0?`<div class="section-title" style="padding:0 2px">Recent performance</div>
@@ -307,14 +315,6 @@ function renderRefMenu(){
       <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
         <button class="btn btn-game" style="font-size:12px;padding:6px 14px" onclick="switchExam('game')">🎮 Games →</button>
       </div>
-    </div>
-
-    <div class="section-title" style="padding:0 2px;margin-top:12px">Reference quizzes</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-      <div class="game-mode-btn" onclick="startGame('dbquiz')"><div class="gm-icon">🗄️</div><div class="gm-name">Database Chooser</div><div class="gm-desc">Which DB fits the scenario? RDS, DynamoDB, Neptune...</div></div>
-      <div class="game-mode-btn" onclick="startGame('storagequiz')"><div class="gm-icon">💾</div><div class="gm-name">Storage Chooser</div><div class="gm-desc">S3, EBS, EFS, Glacier — when to use which?</div></div>
-      <div class="game-mode-btn" onclick="startGame('iamquiz')"><div class="gm-icon">🔑</div><div class="gm-name">IAM Challenge</div><div class="gm-desc">Users, roles, policies, SCPs — test your IAM knowledge.</div></div>
-      <div class="game-mode-btn" onclick="startGame('srmquiz')"><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS or customer? Test who owns each security task.</div></div>
     </div>
 
     <div class="section-title" style="padding:0 2px">Reference guides</div>
