@@ -4,6 +4,11 @@
 // TERRAFORM GAME DATA
 // ═══════════════════════════════════════════════════
 
+const TF_CONCEPT_ICONS = ['🔧', '⚙️', '🏗️', '📁', '🔄', '💾', '🔑', '📊', '🌐', '🛠️', '📋', '🔍', '⚡', '📝', '🎯'];
+const TF_TRUTHY_ICONS = ['🔧', '✅', '❓', '💡', '🎯', '📚', '⚙️', '🏗️', '🔄', '💾', '🔑', '📊', '🌐', '🛠️', '📋', '🔍', '⚡', '📝', '🎪', '🏆', '⭐', '💪', '🚀', '🔮', '🧠', '💭', '🎨', '🎪', '🎭', '🎪'];
+const TF_SCENARIO_ICONS = ['🏗️', '📋', '🔄', '💾', '🌐', '🛠️', '📊', '⚙️', '🔑'];
+const TF_MATCH_ICONS = ['🔗', '🎯', '🧩', '🔍', '📋'];
+
 const TF_CONCEPTS = [
   {q:'What does `terraform init` do?',opts:['Downloads providers and initialises the working directory','Plans infrastructure changes','Applies changes to real resources','Destroys all managed resources'],correct:0,exp:'`terraform init` downloads provider plugins, sets up the backend, and prepares the working directory. Always run this first.'},
   {q:'Which file extension do Terraform configuration files use?',opts:['.tf','.yaml','.json only','.hcl only'],correct:0,exp:'Terraform uses `.tf` files (HCL syntax). JSON `.tf.json` is also valid but `.tf` is the standard.'},
@@ -110,6 +115,11 @@ const TF_MATCH_PAIRS = [
 // KUBERNETES GAME DATA
 // ═══════════════════════════════════════════════════
 
+const K8S_KUBECTL_ICONS = ['☸️', '⌨️', '📋', '🔍', '📊', '⚙️', '🔄', '💾', '🌐', '🛠️', '📝', '🎯', '🔑', '📁', '🗂️'];
+const K8S_TRUTHY_ICONS = ['☸️', '✅', '❓', '💡', '🎯', '📚', '⚙️', '🏗️', '🔄', '💾', '🔑', '📊', '🌐', '🛠️', '📋', '🔍', '⚡', '📝', '🎪', '🏆', '⭐', '💪', '🚀', '🔮', '🧠', '💭', '🎨', '🎪', '🎭', '🎪'];
+const K8S_OBJECT_ICONS = ['🗂️', '📦', '🔗', '🌐', '💾', '🔑', '📊', '⚙️', '🏗️', '🔄', '🛠️', '📋', '🎯'];
+const K8S_MATCH_ICONS = ['🔗', '🎯', '🧩', '🔍', '📋'];
+
 const K8S_QS = [
   {q:'What does `kubectl apply -f deployment.yaml` do?',opts:['Creates or updates resources defined in the file','Only creates new resources, never updates','Deletes resources in the file','Validates the YAML without applying'],correct:0,exp:'`kubectl apply` is declarative — it creates the resource if it doesn\'t exist, or patches it to match the desired state if it does.'},
   {q:'Which Kubernetes object ensures a specified number of Pod replicas are always running?',opts:['ReplicaSet','ConfigMap','Service','Namespace'],correct:0,exp:'A ReplicaSet watches Pods and ensures the desired replica count is always running, restarting Pods that fail or are deleted.'},
@@ -206,7 +216,7 @@ let tfState = {
 function renderTerraformMenu(){
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
-      <div style="font-size:28px;margin-bottom:3px">🔧</div>
+      <div style="font-size:28px;margin-bottom:3px">⚡</div>
       <div style="font-size:17px;font-weight:600;margin-bottom:2px">Terraform Games</div>
       <div style="font-size:12px;color:var(--text2)">HCL · State · Modules · CLI workflow</div>
     </div>
@@ -214,7 +224,7 @@ function renderTerraformMenu(){
     <div class="section-title" style="padding:0 2px;margin-top:12px">Choose a game</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
       <div class="game-mode-btn" onclick="startTfGame('concepts')">
-        <div class="gm-icon">⚡</div>
+        <div class="gm-icon">🛠️</div>
         <div class="gm-name">Concept Quiz</div>
         <div class="gm-desc">HCL syntax, CLI commands, and core concepts.</div>
       </div>
@@ -257,13 +267,14 @@ function renderTfConceptQ(){
   const opts=[...q.opts.map((text,orig)=>({text,orig}))].sort(()=>Math.random()-.5);
   const correct=opts.findIndex(o=>o.orig===q.correct);
   g._cOpts=opts;g._cCorrect=correct;
+  const icon = TF_CONCEPT_ICONS[g.conceptIdx % TF_CONCEPT_ICONS.length];
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderTerraformMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge" style="background:var(--terraform-dim);color:var(--terraform)">${g.conceptIdx+1}/${g.conceptDeck.length}</span><span class="badge b-pass">${g.conceptScore} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px">
-      <div style="font-size:24px;margin-bottom:8px">🔧</div>
+      <div style="font-size:24px;margin-bottom:8px">${icon}</div>
       <div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div>
     </div>
     <div id="tf-concept-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}" style="font-family:'IBM Plex Mono',monospace;font-size:12px">${o.text}</button>`).join('')}</div>
@@ -301,13 +312,14 @@ function startTfTruthy(){
 function renderTfTruthyQ(){
   const g=tfTruthyState;if(g.idx>=g.deck.length){renderTfTruthyEnd();return;}
   const fact=g.deck[g.idx];
+  const icon = TF_TRUTHY_ICONS[g.idx % TF_TRUTHY_ICONS.length];
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderTerraformMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="game-score-pill" style="background:var(--terraform-dim);color:var(--terraform)">🔥 ${g.streak}</span><span class="game-score-pill" style="background:var(--surface2);color:var(--text2)">${g.idx+1}/${g.deck.length}</span></div>
     </div>
     <div class="game-card" style="min-height:160px">
-      <div style="font-size:28px;margin-bottom:5px">🔧</div>
+      <div style="font-size:28px;margin-bottom:5px">${icon}</div>
       <div style="font-size:11px;font-weight:600;color:var(--terraform);margin-bottom:10px;font-family:'IBM Plex Mono',monospace">Terraform</div>
       <div style="font-size:15px;font-weight:500;line-height:1.5;color:var(--text)">"${fact.stmt}"</div>
     </div>
@@ -342,6 +354,7 @@ function renderTfScenario(){
   const allOpts=[slot.correct,...slot.options.filter(o=>o!==slot.correct).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
   const correctPos=allOpts.indexOf(slot.correct);
   g._tfScenOpts=allOpts;g._tfScenCorrect=correctPos;
+  const icon = TF_SCENARIO_ICONS[g.scenarioSlot % TF_SCENARIO_ICONS.length];
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderTerraformMenu()">← Menu</button>
@@ -353,6 +366,7 @@ function renderTfScenario(){
       <div style="font-size:12px;color:var(--text2);line-height:1.5">${scen.desc}</div>
     </div>
     <div class="game-card" style="margin-bottom:10px">
+      <div style="font-size:24px;margin-bottom:8px">${icon}</div>
       <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Step ${g.scenarioSlot+1}: ${slot.label}</div>
       <div style="font-size:15px;font-weight:600">What handles the <em>${slot.label}</em> step?</div>
     </div>
@@ -437,7 +451,7 @@ let k8sState = {
 function renderK8sMenu(){
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
-      <div style="font-size:28px;margin-bottom:3px">☸️</div>
+      <div style="font-size:28px;margin-bottom:3px">🎪</div>
       <div style="font-size:17px;font-weight:600;margin-bottom:2px">Kubernetes Games</div>
       <div style="font-size:12px;color:var(--text2)">Pods · Deployments · Services · kubectl</div>
     </div>
@@ -488,13 +502,14 @@ function renderK8sKubectlQ(){
   const opts=[...q.opts.map((text,orig)=>({text,orig}))].sort(()=>Math.random()-.5);
   const correct=opts.findIndex(o=>o.orig===q.correct);
   g._kOpts=opts;g._kCorrect=correct;
+  const icon = K8S_KUBECTL_ICONS[g.kubectlIdx % K8S_KUBECTL_ICONS.length];
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderK8sMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge" style="background:var(--ckad-dim);color:var(--ckad)">${g.kubectlIdx+1}/${g.kubectlDeck.length}</span><span class="badge b-pass">${g.kubectlScore} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px">
-      <div style="font-size:24px;margin-bottom:8px">☸️</div>
+      <div style="font-size:24px;margin-bottom:8px">${icon}</div>
       <div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div>
     </div>
     <div id="k8s-kubectl-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}">${o.text}</button>`).join('')}</div>
@@ -532,13 +547,14 @@ function startK8sTruthy(){
 function renderK8sTruthyQ(){
   const g=k8sTruthyState;if(g.idx>=g.deck.length){renderK8sTruthyEnd();return;}
   const fact=g.deck[g.idx];
+  const icon = K8S_TRUTHY_ICONS[g.idx % K8S_TRUTHY_ICONS.length];
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderK8sMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="game-score-pill" style="background:var(--ckad-dim);color:var(--ckad)">🔥 ${g.streak}</span><span class="game-score-pill" style="background:var(--surface2);color:var(--text2)">${g.idx+1}/${g.deck.length}</span></div>
     </div>
     <div class="game-card" style="min-height:160px">
-      <div style="font-size:28px;margin-bottom:5px">☸️</div>
+      <div style="font-size:28px;margin-bottom:5px">${icon}</div>
       <div style="font-size:11px;font-weight:600;color:var(--ckad);margin-bottom:10px;font-family:'IBM Plex Mono',monospace">Kubernetes</div>
       <div style="font-size:15px;font-weight:500;line-height:1.5;color:var(--text)">"${fact.stmt}"</div>
     </div>
@@ -575,13 +591,14 @@ function renderK8sObjectQ(){
   const opts=[...q.opts].sort(()=>Math.random()-.5);
   const correct=opts.indexOf(q.ans);
   g._oOpts=opts;g._oCorrect=correct;
+  const icon = K8S_OBJECT_ICONS[g.idx % K8S_OBJECT_ICONS.length];
   document.getElementById('game-area').innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
       <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderK8sMenu()">← Menu</button>
       <div style="display:flex;gap:5px"><span class="badge" style="background:var(--ckad-dim);color:var(--ckad)">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} correct</span></div>
     </div>
     <div class="game-card" style="margin-bottom:10px">
-      <div style="font-size:24px;margin-bottom:8px">🗂️</div>
+      <div style="font-size:24px;margin-bottom:8px">${icon}</div>
       <div style="font-size:15px;font-weight:500;line-height:1.5">${q.q}</div>
     </div>
     <div id="k8s-obj-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}">${o}</button>`).join('')}</div>

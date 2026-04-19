@@ -312,9 +312,10 @@ function renderRefMenu(){
       <div style="font-size:28px;margin-bottom:3px">📚</div>
       <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS References</div>
       <div style="font-size:12px;color:var(--text2)">Reference guides &amp; targeted quizzes</div>
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
-        <button class="btn btn-game" style="font-size:12px;padding:6px 14px" onclick="switchExam('game')">🎮 Games →</button>
-      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+      <button class="btn btn-game" style="font-size:12px;padding:6px 14px" onclick="switchExam('game')">🎮 Games →</button>
     </div>
 
     <div class="section-title" style="padding:0 2px">Reference guides</div>
