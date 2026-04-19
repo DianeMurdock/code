@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Multi-Certification Study Hub</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="light">
+
+
+<div class="app-header">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+    <div>
+      <div class="app-title">🎓 Multi-Cert Study Hub</div>
+      <div class="app-subtitle">AWS & HashiCorp Certifications</div>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 Dark</button>
+  </div>
+  <div class="cert-selector">
+    <div class="cert-dropdown" id="cert-dropdown" onclick="toggleCertDropdown()">
+      <span class="cert-icon" id="selected-cert-icon">🎮</span>
+      <span class="cert-name" id="selected-cert-name">AWS Games</span>
+      <span class="cert-dropdown-arrow">▼</span>
+    </div>
+    <div class="cert-options" id="cert-options">
+      <div class="cert-option selected" data-cert="game" onclick="selectCert('game')">
+        <span class="cert-icon">🎮</span><span class="cert-name">AWS Games</span><span class="cert-badge">AWS</span>
+      </div>
+      <div class="cert-option" data-cert="ccp" onclick="selectCert('ccp')">
+        <span class="cert-icon">☁️</span><span class="cert-name">AWS Cloud Practitioner</span><span class="cert-badge">AWS</span>
+      </div>
+      <div class="cert-option" data-cert="saa" onclick="selectCert('saa')">
+        <span class="cert-icon">🏗️</span><span class="cert-name">AWS Solutions Architect</span><span class="cert-badge">AWS</span>
+      </div>
+      <div class="cert-option" data-cert="dva" onclick="selectCert('dva')">
+        <span class="cert-icon">⚙️</span><span class="cert-name">AWS Developer Associate</span><span class="cert-badge">AWS</span>
+      </div>
+      <div class="cert-option" data-cert="terraform" onclick="selectCert('terraform')">
+        <span class="cert-icon">🔧</span><span class="cert-name">Terraform Associate</span><span class="cert-badge">HashiCorp</span>
+      </div>
+      <div class="cert-option" data-cert="all" onclick="selectCert('all')">
+        <span class="cert-icon">🔀</span><span class="cert-name">AWS Combined Practice</span><span class="cert-badge">AWS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="exam-tabs" style="display:none" id="examTabs">
+  <div class="exam-tab active-game" data-exam="game" onclick="switchExam('game')">🎮 AWS<br>Games</div>
+  <div class="exam-tab" data-exam="ccp" onclick="switchExam('ccp')">☁️ Cloud<br>Practitioner</div>
+  <div class="exam-tab" data-exam="saa" onclick="switchExam('saa')">🏗️ Solutions<br>Architect</div>
+  <div class="exam-tab" data-exam="dva" onclick="switchExam('dva')">⚙️ Developer<br>Associate</div>
+  <div class="exam-tab" data-exam="terraform" onclick="switchExam('terraform')">🔧 Terraform</div>
+  <div class="exam-tab" data-exam="all" onclick="switchExam('all')">🔀 Combined<br>Practice</div>
+</div>
+
+<div class="nav" id="mainNav" style="display:none">
+  <button class="nav-btn" data-nav="home" onclick="showScreen('home')">Dashboard</button>
+  <button class="nav-btn" data-nav="bank" onclick="showScreen('bank')">Questions</button>
+  <button class="nav-btn" data-nav="exam-config" onclick="showScreen('exam-config')">Take Exam</button>
+  <button class="nav-btn" data-nav="failed" onclick="showScreen('failed')">Failed</button>
+  <button class="nav-btn" data-nav="history" onclick="showScreen('history')">History</button>
+</div>
+
+<!-- HOME -->
+<div id="screen-home" class="screen">
+  <div class="stat-grid" id="stats-grid"></div>
+  <div class="card">
+    <div class="section-title">Quick start</div>
+    <div class="btn-row">
+      <button class="btn btn-ccp" id="quick-btn" onclick="startQuickExam()">Quick 10-Q Exam</button>
+      <button class="btn btn-ghost" onclick="startFailedExam()">Practice Failed</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-title">Recent exams</div>
+    <div id="recent-list"></div>
+  </div>
+  <div class="card">
+    <div class="section-title">Domain coverage</div>
+    <div id="domain-coverage"></div>
+  </div>
+</div>
+
+<!-- BANK -->
+<div id="screen-bank" class="screen">
+  <div class="filter-row">
+    <select id="filter-domain" onchange="renderBank()" style="flex:1;min-width:130px"></select>
+    <select id="filter-status" onchange="renderBank()">
+      <option value="">All</option>
+      <option value="failed">Failed</option>
+      <option value="passed">Passed</option>
+      <option value="unseen">New</option>
+    </select>
+  </div>
+  <div style="font-size:12px;color:var(--text3);margin-bottom:10px" id="bank-count"></div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <div id="bank-list"></div>
+  </div>
+</div>
+
+<!-- QUESTION DETAIL -->
+<div id="screen-question" class="screen">
+  <button class="btn btn-ghost" style="margin-bottom:12px;width:100%" onclick="goBack()">← Back</button>
+  <div id="question-detail"></div>
+</div>
+
+<!-- EXAM CONFIG -->
+<div id="screen-exam-config" class="screen">
+  <div class="card">
+    <div class="section-title">Configure exam</div>
+    <div class="config-label">Number of questions</div>
+    <input type="number" id="exam-count" value="20" min="5" max="200" style="width:100%">
+    <div class="config-label">Domain</div>
+    <select id="exam-domain" style="width:100%"></select>
+    <div class="config-label">Question pool</div>
+    <select id="exam-pool" style="width:100%">
+      <option value="all">All questions</option>
+      <option value="failed">Failed only</option>
+      <option value="unseen">Unseen only</option>
+    </select>
+    <div style="margin-top:16px" class="btn-row">
+      <button class="btn btn-ccp" id="start-exam-btn" onclick="startExam()" style="flex:1">Start Exam</button>
+      <button class="btn btn-ghost" onclick="showScreen('home')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXAM -->
+<div id="screen-exam" class="screen">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <div style="font-size:12px;color:var(--text2);font-family:'IBM Plex Mono',monospace" id="exam-progress-lbl"></div>
+    <div style="font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace" id="exam-score-lbl"></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill fill-ccp" id="exam-progress-bar"></div></div>
+  <div id="exam-question-area"></div>
+  <div style="margin-top:10px" id="exam-controls"></div>
+</div>
+
+<!-- RESULTS -->
+<div id="screen-results" class="screen">
+  <div id="results-area"></div>
+</div>
+
+<!-- FAILED -->
+<div id="screen-failed" class="screen">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div>
+      <div style="font-size:15px;font-weight:600">Failed Questions</div>
+      <div style="font-size:12px;color:var(--text2)" id="failed-subtitle"></div>
+    </div>
+    <button class="btn btn-ccp" id="practice-failed-btn" onclick="startFailedExam()">Practice These</button>
+  </div>
+  <div id="failed-list"></div>
+</div>
+
+<!-- HISTORY -->
+<div id="screen-history" class="screen">
+  <div style="font-size:15px;font-weight:600;margin-bottom:12px">Exam History</div>
+  <div id="history-list"></div>
+</div>
+
+<!-- GAME -->
+<div id="screen-game" class="screen active">
+  <div id="game-area"></div>
+</div>
+
+<!-- 1. Question data (no dependencies) -->
+<script src="js/data/ccp-questions.js"></script>
+<script src="js/data/saa-questions.js"></script>
+<script src="js/data/dva-questions.js"></script>
+<script src="js/data/terraform-questions.js"></script>
+
+<!-- 2. Functions (define everything, run nothing) -->
+<script src="js/core/exam-engine.js"></script>
+<script src="js/core/games.js"></script>
+
+<!-- 3. App config + boot (loaded LAST) -->
+<script src="js/core/app.js"></script>
+
+</body>
+</html>
