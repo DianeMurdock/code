@@ -34,12 +34,14 @@ function selectCert(cert) {
   const map = {
     game:{icon:'🎮',name:'AWS Games'},
     ref:{icon:'📚',name:'AWS References'},
+    'tf-games':{icon:'⚡',name:'Terraform Games'},
+    'k8s-games':{icon:'🎪',name:'Kubernetes Games'},
     ccp:{icon:'☁️',name:'AWS Cloud Practitioner'},
     saa:{icon:'🏗️',name:'AWS Solutions Architect'},
     dva:{icon:'⚙️',name:'AWS Developer Associate'},
+    all:{icon:'🔀',name:'AWS Combined Practice'},
     terraform:{icon:'🔧',name:'Terraform Associate'},
-    ckad:{icon:'☸️',name:'Kubernetes CKAD'},
-    all:{icon:'🔀',name:'AWS Combined Practice'}
+    ckad:{icon:'☸️',name:'Kubernetes CKAD'}
   };
   const d = map[cert];
   document.getElementById('selected-cert-icon').textContent = d.icon;

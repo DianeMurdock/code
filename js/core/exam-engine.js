@@ -38,13 +38,15 @@ function save() { try { localStorage.setItem('awshub_v1',JSON.stringify({failedI
 function switchExam(exam) {
   currentExam = exam;
   document.querySelectorAll('.exam-tab').forEach(t=>t.className='exam-tab');
-  document.querySelector(`[data-exam="${exam}"]`).classList.add(`active-${exam}`);
+  const tab = document.querySelector(`[data-exam="${exam}"]`);
+  if(tab) tab.classList.add(`active-${exam}`);
   document.querySelectorAll('.nav-btn').forEach(b=>b.className='nav-btn');
   const activeNav = document.querySelector('.nav-btn[data-nav="home"]');
   if(activeNav){ activeNav.classList.add('active',exam); }
-  const qb=document.getElementById('quick-btn'); if(qb) qb.className=`btn btn-${exam}`;
-  const pf=document.getElementById('practice-failed-btn'); if(pf) pf.className=`btn btn-${exam}`;
-  const se=document.getElementById('start-exam-btn'); if(se) se.className=`btn btn-${exam}`;
+  const btnClass = exam === 'tf-games' ? 'btn btn-terraform' : exam === 'k8s-games' ? 'btn btn-ckad' : `btn btn-${exam}`;
+  const qb=document.getElementById('quick-btn'); if(qb) qb.className=btnClass;
+  const pf=document.getElementById('practice-failed-btn'); if(pf) pf.className=btnClass;
+  const se=document.getElementById('start-exam-btn'); if(se) se.className=btnClass;
   if(exam==='game'){
     document.getElementById('mainNav').style.display='none';
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -59,6 +61,22 @@ function switchExam(exam) {
     document.getElementById('screen-game').classList.add('active');
     window.scrollTo(0,0);
     renderRefMenu();
+    return;
+  }
+  if(exam==='tf-games'){
+    document.getElementById('mainNav').style.display='none';
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-game').classList.add('active');
+    window.scrollTo(0,0);
+    renderTerraformMenu();
+    return;
+  }
+  if(exam==='k8s-games'){
+    document.getElementById('mainNav').style.display='none';
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-game').classList.add('active');
+    window.scrollTo(0,0);
+    renderK8sMenu();
     return;
   }
   document.getElementById('mainNav').style.display='flex';
