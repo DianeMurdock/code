@@ -324,6 +324,16 @@ function renderGameMenu(){
       <div class="game-mode-btn" onclick="startGame('srmquiz')"><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS or customer? Test who owns each security task.</div></div>
     </div>
 
+    <div class="section-title" style="padding:0 2px">Hard mode — CCP exam prep 🔥</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="game-mode-btn" onclick="startGame('pricing')" style="border-color:var(--fail);"><div class="gm-icon">💰</div><div class="gm-name">Pricing Showdown</div><div class="gm-desc">On-Demand vs RI vs Spot vs Savings Plans — pick the cheapest option for each scenario.</div></div>
+      <div class="game-mode-btn" onclick="startGame('security')" style="border-color:var(--fail);"><div class="gm-icon">🔐</div><div class="gm-name">Security Gauntlet</div><div class="gm-desc">IAM evaluation, GuardDuty vs Macie, SCPs, Object Lock — tricky security scenarios.</div></div>
+      <div class="game-mode-btn" onclick="startGame('migration')" style="border-color:var(--fail);"><div class="gm-icon">🚚</div><div class="gm-name">Migration 6 Rs</div><div class="gm-desc">Classify each migration as Rehost, Replatform, Repurchase, Re-architect, Retire, or Retain.</div></div>
+      <div class="game-mode-btn" onclick="startGame('dr')" style="border-color:var(--fail);"><div class="gm-icon">🛡️</div><div class="gm-name">DR Strategies</div><div class="gm-desc">Backup & Restore, Pilot Light, Warm Standby, or Active/Active — match RTO/RPO to strategy.</div></div>
+      <div class="game-mode-btn" onclick="startGame('network')" style="border-color:var(--fail);"><div class="gm-icon">🌐</div><div class="gm-name">Network & VPC</div><div class="gm-desc">IGW vs NAT, SGs vs NACLs, VPC Endpoints, peering, Transit Gateway, Direct Connect.</div></div>
+      <div class="game-mode-btn" onclick="startGame('wahard')" style="border-color:var(--fail);"><div class="gm-icon">🏛️</div><div class="gm-name">Well-Architected: Hard</div><div class="gm-desc">Scenario-based pillar reasoning — which principle is violated and why?</div></div>
+    </div>
+
     ${histCount>0?`<div class="section-title" style="padding:0 2px">Recent performance</div>
     <div class="card" style="padding:10px;margin-bottom:12px;cursor:pointer" onclick="showGameHistory()">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -357,6 +367,14 @@ function renderRefMenu(){
       <div class="game-mode-btn" onclick="showStorageReference()"><div class="gm-icon">💾</div><div class="gm-name">Storage</div><div class="gm-desc">S3, EBS, EFS, Glacier, Snow Family and more.</div></div>
       <div class="game-mode-btn" onclick="showIAMReference()"><div class="gm-icon">🔑</div><div class="gm-name">IAM Deep Dive</div><div class="gm-desc">Users, groups, roles, policies, SCPs explained.</div></div>
       <div class="game-mode-btn" onclick="showSRMReference()"><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS vs customer — who owns what?</div></div>
+    </div>
+
+    <div class="section-title" style="padding:0 2px">Hard topic references 🔥</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="game-mode-btn" onclick="showNetworkReference()" style="border-color:var(--fail)"><div class="gm-icon">🌐</div><div class="gm-name">VPC & Networking</div><div class="gm-desc">IGW, NAT, SGs, NACLs, endpoints, peering, Transit Gateway, Direct Connect.</div></div>
+      <div class="game-mode-btn" onclick="showPricingReference()" style="border-color:var(--fail)"><div class="gm-icon">💰</div><div class="gm-name">Pricing Models</div><div class="gm-desc">On-Demand, RI, Spot, Savings Plans, Dedicated — when to use each.</div></div>
+      <div class="game-mode-btn" onclick="showMigrationReference()" style="border-color:var(--fail)"><div class="gm-icon">🚚</div><div class="gm-name">Migration 6 Rs</div><div class="gm-desc">Rehost, Replatform, Repurchase, Re-architect, Retire, Retain — with examples.</div></div>
+      <div class="game-mode-btn" onclick="showDRReference()" style="border-color:var(--fail)"><div class="gm-icon">🛡️</div><div class="gm-name">DR Strategies</div><div class="gm-desc">Backup & Restore → Pilot Light → Warm Standby → Active/Active. Cost vs RTO/RPO.</div></div>
     </div>
 
     <div class="section-title" style="padding:0 2px">Support plans reference</div>
@@ -414,6 +432,12 @@ function startGame(mode){
   else if(mode==='storagequiz') startStorageQuiz();
   else if(mode==='iamquiz') startIAMQuiz();
   else if(mode==='srmquiz') startSRMQuiz();
+  else if(mode==='pricing') startPricingGame();
+  else if(mode==='migration') renderMigrationExplainer();
+  else if(mode==='security') startSecurityGame();
+  else if(mode==='dr') renderDRExplainer();
+  else if(mode==='network') startNetworkGame();
+  else if(mode==='wahard') startWAHardGame();
 }
 
 function showQuizFilter(){
@@ -1110,4 +1134,465 @@ function renderSRMEnd(){
   document.getElementById('game-area').innerHTML=`
     <div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div>
     <div class="btn-row" style="margin-top:10px"><button class="btn btn-ref" onclick="startGame('srmquiz')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showSRMReference()">Study SRM</button><button class="btn btn-ghost" onclick="renderRefMenu()">Menu</button></div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// HARDER CCP GAMES
+// ═══════════════════════════════════════════════════
+
+// ── 1. PRICING SHOWDOWN ──
+const PRICING_QS = [
+  {q:'A web server runs 24/7 for a predictable e-commerce site. The team commits to 1 year. Which option is cheapest?',opts:['On-Demand','1-Year Standard Reserved Instance','Spot Instance','Dedicated Host'],ans:1,exp:'Reserved Instances offer up to 72% savings over On-Demand for steady, predictable 24/7 workloads committed to 1 or 3 years. Spot is cheaper but can be interrupted — unsuitable for a live website.'},
+  {q:'A batch ML training job runs 6 hours overnight and can restart if interrupted. Lowest cost option?',opts:['On-Demand','Reserved Instance','Spot Instance with checkpointing','Dedicated Host'],ans:2,exp:'Spot Instances save up to 90% for fault-tolerant, interruptible workloads. Checkpointing lets the job resume after a Spot reclaim — perfect for overnight batch jobs.'},
+  {q:'A startup\'s new app has completely unknown traffic. They want to avoid cost surprises. Best starting strategy?',opts:['3-Year Reserved Instances for maximum savings','On-Demand + Auto Scaling, review after 1-2 months','Spot Instances for everything','Dedicated Hosts for compliance'],ans:1,exp:'On-Demand with Auto Scaling has no commitment and scales with actual demand. After gathering real usage data, Cost Explorer will surface RI/Savings Plan recommendations based on observed patterns.'},
+  {q:'A company uses EC2, Lambda, and Fargate across 4 instance families and multiple regions. Most flexible savings commitment?',opts:['Standard Reserved Instances (1 family per region)','Convertible Reserved Instances','Compute Savings Plans','EC2 Instance Savings Plans'],ans:2,exp:'Compute Savings Plans apply automatically across EC2 (any family, size, region, OS), Lambda, and Fargate — the broadest coverage. They offer up to 66% savings with maximum flexibility.'},
+  {q:'Dev EC2 instances are only used 9am–6pm Mon–Fri (45 hrs/week vs 168 hrs). Best cost reduction?',opts:['Convert to Reserved Instances','Schedule automatic stop/start outside working hours','Move to Spot Instances','Increase to larger instance to finish faster'],ans:1,exp:'Stop/start scheduling eliminates ~73% of runtime hours at no extra cost. Dev instances don\'t need the uptime guarantees that Reserved Instances are designed for.'},
+  {q:'A company needs to run 10,000 simulations over the next week, each taking 30 min, tolerating interruption. Cheapest option?',opts:['On-Demand','3-Year Reserved Instances','Spot Instances with SQS queue for retry','Savings Plans'],ans:2,exp:'Spot Instances with an SQS queue means interrupted jobs requeue automatically. For large, fault-tolerant batch workloads, Spot (up to 90% off) with retry logic is the standard cost-optimisation pattern.'},
+  {q:'CloudFront serves images from S3 to global users. Monthly S3 data transfer out = $4,200. After adding CloudFront, cache hit rate is 85%. What happens to the bill?',opts:['Bill increases — CloudFront adds cost','Bill decreases — 85% of requests skip the S3 origin, CloudFront per-GB rate is also lower','No change — you still pay for all transfers','S3 transfer is free with CloudFront'],ans:1,exp:'CloudFront caches content at edge locations. An 85% cache hit rate means 85% of requests never reach S3, eliminating that origin transfer cost. CloudFront\'s per-GB pricing to end users is also lower than direct S3 egress rates.'},
+  {q:'A company runs RDS Multi-AZ. Their DBA says the standby instance is "wasted cost" since it doesn\'t serve reads. How can they add value to the standby?',opts:['Delete Multi-AZ to save cost','Promote the standby to serve read traffic','Add RDS Read Replicas for read workloads while keeping Multi-AZ standby for HA','Move to DynamoDB'],ans:2,exp:'Multi-AZ standby is for HA/failover only — it cannot serve reads. Read Replicas are separate instances that handle read traffic. Using both gives you HA (Multi-AZ) and read scaling (Read Replicas).'},
+  {q:'A company\'s NAT Gateway costs $1,800/month mainly from EC2 instances downloading S3 objects. Free fix?',opts:['Upgrade to a larger NAT Gateway','Add a VPC Gateway Endpoint for S3 — traffic routes privately, bypassing NAT Gateway entirely','Use CloudFront instead of S3','Switch to Direct Connect'],ans:1,exp:'VPC Gateway Endpoints for S3 (and DynamoDB) are free and route traffic through the AWS private network, bypassing the NAT Gateway entirely. This eliminates NAT Gateway data processing charges for all S3 traffic from private subnets.'},
+  {q:'Which EC2 pricing model lets you save up to 90% but requires you to handle 2-minute interruption notices?',opts:['Reserved Instances','Savings Plans','Spot Instances','Dedicated Hosts'],ans:2,exp:'Spot Instances use AWS spare capacity at up to 90% discount. AWS can reclaim them with a 2-minute warning. Best for fault-tolerant, stateless, or batch workloads that can handle interruption gracefully.'},
+  {q:'An app with unpredictable spikes uses Reserved Instances for baseline and needs to handle peaks cost-effectively without interruption risk. What covers the spikes?',opts:['More Reserved Instances at peak tier','Spot Instances for spikes','On-Demand for spikes above the reserved baseline','Dedicated Hosts for spikes'],ans:2,exp:'The RI/On-Demand/Spot combination is a standard architecture: RIs cover predictable baseline (cheapest for steady load), On-Demand covers unpredictable spikes (no interruption risk), Spot for background batch that can tolerate reclaim.'},
+  {q:'AWS Trusted Advisor shows 12 EC2 instances with < 5% CPU utilisation over 14 days. What action saves the most money?',opts:['Terminate all 12 immediately','Right-size or downsize instances to match actual CPU/memory needs','Add CloudWatch alarms','Purchase Reserved Instances for the current oversized instances'],ans:1,exp:'Right-sizing means selecting the smallest instance type that still meets performance requirements. Purchasing RIs for oversized instances locks in the wrong size. Trusted Advisor\'s Cost Optimization checks are a primary source of right-sizing recommendations.'},
+];
+
+let pricingState={deck:[],idx:0,score:0,answered:false};
+function startPricingGame(){
+  pricingState.deck=[...PRICING_QS].sort(()=>Math.random()-.5);
+  pricingState.idx=0;pricingState.score=0;pricingState.answered=false;
+  renderPricingQ();
+}
+function renderPricingQ(){
+  const g=pricingState;if(g.idx>=g.deck.length){renderPricingEnd();return;}
+  const q=g.deck[g.idx];const opts=[...q.opts.map((t,i)=>({t,i}))].sort(()=>Math.random()-.5);
+  const correct=opts.findIndex(o=>o.i===q.ans);
+  g._opts=opts;g._correct=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <div style="display:flex;gap:5px"><span class="badge b-hard" style="font-size:11px">Hard</span><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} ✓</span></div>
+    </div>
+    <div class="game-card" style="margin-bottom:10px"><div style="font-size:26px;margin-bottom:6px">💰</div><div style="font-size:15px;font-weight:500;line-height:1.6">${q.q}</div></div>
+    <div id="pricing-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}">${o.t}</button>`).join('')}</div>
+    <div id="pricing-exp"></div>`;
+  document.getElementById('pricing-opts').addEventListener('click',e=>{const b=e.target.closest('[data-idx]');if(b)choosePricingQ(parseInt(b.dataset.idx));});
+}
+function choosePricingQ(chosen){
+  const g=pricingState;if(g.answered)return;g.answered=true;
+  const q=g.deck[g.idx],correct=g._correct,right=chosen===correct;
+  recordGameAnswer('Pricing Showdown',q.q,g._opts[chosen]?.t||'',q.opts[q.ans],right);
+  if(right)g.score++;
+  document.querySelectorAll('#pricing-opts .game-opt').forEach((b,i)=>{b.classList.add('gd');if(i===correct)b.classList.add('g-correct');else if(i===chosen)b.classList.add('g-wrong');});
+  document.getElementById('pricing-exp').innerHTML=`<div class="explanation" style="margin-top:8px">${q.exp}</div>`;
+  setTimeout(()=>{g.idx++;g.answered=false;renderPricingQ();},right?1400:2200);
+}
+function renderPricingEnd(){
+  const g=pricingState,pct=Math.round(g.score/g.deck.length*100);
+  document.getElementById('game-area').innerHTML=`<div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div><div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('pricing')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+}
+
+// ── 2. MIGRATION STRATEGIES — 6 Rs ──
+const SIX_RS = [
+  {name:'Rehost',icon:'🏠',desc:'Lift & shift — move to cloud with no changes. Fastest migration, least cloud benefit.',hint:'Move as-is'},
+  {name:'Replatform',icon:'🔧',desc:'Lift, tinker & shift — make targeted optimizations (e.g. EC2→RDS) without changing core architecture.',hint:'Optimize slightly'},
+  {name:'Repurchase',icon:'🛒',desc:'Drop & shop — replace with a SaaS product (e.g. on-prem CRM → Salesforce).',hint:'Buy SaaS instead'},
+  {name:'Re-architect',icon:'🏗️',desc:'Redesign the application natively for cloud (microservices, serverless, containers). Highest effort, most benefit.',hint:'Rebuild cloud-native'},
+  {name:'Retire',icon:'🗑️',desc:'Decommission — the application is no longer needed. Switch it off.',hint:'Shut it down'},
+  {name:'Retain',icon:'🔒',desc:'Keep on-premises — not ready to migrate due to compliance, latency, or complexity. Revisit later.',hint:'Leave it for now'},
+];
+
+const MIGRATION_QS = [
+  {q:'A company moves their on-premises VMs to EC2 with no code changes whatsoever.',ans:'Rehost',exp:'Rehost (lift & shift) means migrating workloads to the cloud without any modification — the fastest path to the cloud.'},
+  {q:'A company replaces a self-managed MySQL on EC2 with Amazon RDS without changing the application.',ans:'Replatform',exp:'Replatform makes targeted improvements (managed DB removes ops overhead) without re-architecting the application — sometimes called "lift, tinker, and shift".'},
+  {q:'A company stops maintaining their on-premises CRM and moves to Salesforce.',ans:'Repurchase',exp:'Repurchase (drop & shop) swaps a custom or on-prem solution for a commercial SaaS product.'},
+  {q:'A monolithic app is decomposed into Lambda functions and DynamoDB, redesigned from scratch.',ans:'Re-architect',exp:'Re-architect (also called Refactor) redesigns the application to use cloud-native services — highest effort but best long-term cloud benefits.'},
+  {q:'After an audit, a company discovers 20 internal apps with no users for 2 years.',ans:'Retire',exp:'Retire means identifying and decommissioning applications that are no longer needed — often 10-20% of a portfolio.'},
+  {q:'A healthcare app cannot migrate due to data sovereignty regulations requiring on-premises storage.',ans:'Retain',exp:'Retain means keeping the application on-premises (at least for now) — due to compliance, latency, or complexity constraints.'},
+  {q:'Moving from self-managed Tomcat on VMs to AWS Elastic Beanstalk without changing application code.',ans:'Replatform',exp:'Using Elastic Beanstalk removes server management overhead. The application code is unchanged — a classic Replatform.'},
+  {q:'A company rebuilds their e-commerce platform as microservices on EKS with API Gateway.',ans:'Re-architect',exp:'Re-architecting to microservices on Kubernetes is the most transformation-heavy migration strategy.'},
+  {q:'A business unit is being sold. Their AWS workloads should be transferred to the buyer.',ans:'Retire',exp:'Transferring or closing workloads associated with a divested business unit is effectively Retiring them from your portfolio.'},
+  {q:'An ERP system is too tightly coupled with mainframe hardware to migrate in the next 2 years.',ans:'Retain',exp:'Retain is chosen when migration is not yet feasible — the decision is to revisit migration later.'},
+  {q:'A company moves their file servers to EC2 instances with identical configuration, preserving all file paths.',ans:'Rehost',exp:'Rehosting preserves the same environment — identical configuration, just running on EC2 instead of physical servers.'},
+  {q:'A company subscribes to AWS WorkMail instead of running their own Exchange server.',ans:'Repurchase',exp:'Moving from a self-managed email server to a managed SaaS email service (WorkMail, Google Workspace) is Repurchase.'},
+];
+
+let migrationState={deck:[],idx:0,score:0,answered:false,showExplainer:false};
+function startMigrationGame(){
+  migrationState.deck=[...MIGRATION_QS].sort(()=>Math.random()-.5);
+  migrationState.idx=0;migrationState.score=0;migrationState.answered=false;migrationState.showExplainer=false;
+  renderMigrationQ();
+}
+function renderMigrationExplainer(){
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%" onclick="renderGameMenu()">← Menu</button>
+    <div class="game-card" style="text-align:left;margin-bottom:10px"><div style="font-size:24px;margin-bottom:6px">🚚</div><div style="font-size:15px;font-weight:600;margin-bottom:8px">The 6 Rs of Migration</div>${SIX_RS.map(r=>`<div style="padding:8px 0;border-bottom:1px solid var(--border)"><div style="display:flex;gap:8px;align-items:center;margin-bottom:2px"><span style="font-size:18px">${r.icon}</span><span style="font-weight:600">${r.name}</span><span class="badge b-neutral" style="font-size:10px">${r.hint}</span></div><div style="font-size:12px;color:var(--text2);line-height:1.5">${r.desc}</div></div>`).join('')}</div>
+    <button class="btn btn-game" style="width:100%" onclick="startMigrationGame()">Start Quiz →</button>`;
+}
+function renderMigrationQ(){
+  const g=migrationState;if(g.idx>=g.deck.length){renderMigrationEnd();return;}
+  const q=g.deck[g.idx];
+  const opts=[...SIX_RS].sort(()=>Math.random()-.5);
+  const correct=opts.findIndex(r=>r.name===q.ans);
+  g._opts=opts;g._correct=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <div style="display:flex;gap:5px"><span class="badge b-hard" style="font-size:11px">Hard</span><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} ✓</span></div>
+    </div>
+    <div class="game-card" style="margin-bottom:10px"><div style="font-size:26px;margin-bottom:6px">🚚</div><div style="font-size:15px;font-weight:500;line-height:1.6">${q.q}</div></div>
+    <div id="mig-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${opts.map((r,i)=>`<button class="game-opt" data-idx="${i}" style="text-align:center;padding:10px 6px"><span style="font-size:18px;display:block;margin-bottom:2px">${r.icon}</span><span style="font-size:13px;font-weight:600">${r.name}</span><span style="font-size:10px;color:var(--text3);display:block">${r.hint}</span></button>`).join('')}</div>
+    <div id="mig-exp"></div>`;
+  document.getElementById('mig-opts').addEventListener('click',e=>{const b=e.target.closest('[data-idx]');if(b)chooseMigrationQ(parseInt(b.dataset.idx));});
+}
+function chooseMigrationQ(chosen){
+  const g=migrationState;if(g.answered)return;g.answered=true;
+  const q=g.deck[g.idx],correct=g._correct,right=chosen===correct;
+  recordGameAnswer('Migration 6Rs',q.q,g._opts[chosen]?.name||'',q.ans,right);
+  if(right)g.score++;
+  document.querySelectorAll('#mig-opts .game-opt').forEach((b,i)=>{b.classList.add('gd');if(i===correct)b.classList.add('g-correct');else if(i===chosen)b.classList.add('g-wrong');});
+  document.getElementById('mig-exp').innerHTML=`<div class="explanation" style="margin-top:8px">${q.exp}</div>`;
+  setTimeout(()=>{g.idx++;g.answered=false;renderMigrationQ();},right?1400:2200);
+}
+function renderMigrationEnd(){
+  const g=migrationState,pct=Math.round(g.score/g.deck.length*100);
+  document.getElementById('game-area').innerHTML=`<div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div><div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('migration')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="renderMigrationExplainer()">Study 6 Rs</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+}
+
+// ── 3. SECURITY GAUNTLET ──
+const SECURITY_QS = [
+  {q:'An IAM policy has Deny s3:DeleteObject and another has Allow s3:DeleteObject. What is the result?',opts:['Allow — most permissive wins','Deny — explicit Deny always overrides Allow','Allow — the more specific policy wins','Depends on policy attachment order'],ans:1,exp:'IAM evaluation logic: explicit Deny > explicit Allow > implicit Deny. An explicit Deny anywhere in the policy chain overrides all Allows, regardless of order or specificity.'},
+  {q:'Which service CONTINUOUSLY monitors your AWS accounts for malicious activity using ML on CloudTrail, VPC Flow Logs, and DNS logs — without requiring agents?',opts:['Amazon Inspector','Amazon Macie','Amazon GuardDuty','AWS Security Hub'],ans:2,exp:'GuardDuty is agentless threat detection that analyzes CloudTrail, VPC Flow Logs, and Route 53 DNS query logs using ML to detect threats like compromised credentials, unusual API calls, and crypto-mining.'},
+  {q:'A developer accidentally pushed AWS access keys to a public GitHub repository 10 minutes ago. What is the FIRST action?',opts:['Make the GitHub repo private','Rotate the keys','Immediately deactivate or delete the exposed IAM access keys','Enable MFA on the IAM user'],ans:2,exp:'Exposed keys must be deactivated immediately — assume they have already been compromised. After deactivation: rotate if needed, investigate CloudTrail for any unauthorized usage, then review how to prevent recurrence.'},
+  {q:'You need EC2 instances in private subnets to download OS patches from the internet but block all inbound connections. What component is required?',opts:['Internet Gateway on private subnet','VPN Gateway','NAT Gateway in a public subnet','VPC Endpoint'],ans:2,exp:'A NAT Gateway in a public subnet allows private instances to initiate outbound connections (for patches) while blocking unsolicited inbound traffic. Private subnets route 0.0.0.0/0 to the NAT Gateway, not the IGW.'},
+  {q:'Which S3 feature prevents ANYONE (including root) from deleting or overwriting objects for a fixed retention period — required for WORM compliance?',opts:['S3 Versioning','S3 MFA Delete','S3 Object Lock in Compliance mode','S3 Block Public Access'],ans:2,exp:'S3 Object Lock Compliance mode cannot be overridden by any user, including root. It provides WORM (Write Once Read Many) protection required by regulations like SEC 17a-4 and FINRA.'},
+  {q:'Your organization needs to ensure developers can NEVER create resources outside eu-west-1 and eu-central-1, even with AdministratorAccess. What achieves this?',opts:['IAM Permission Boundaries on all users','An SCP in AWS Organizations denying all actions outside approved regions','VPC routing restrictions','AWS Config rules in each account'],ans:1,exp:'SCPs set the maximum permissions for all principals in an account, including root. A Deny SCP on regions outside the approved list cannot be overridden by any IAM policy in any member account.'},
+  {q:'A security audit requires proof that S3 bucket objects have not been modified since storage. Which feature provides cryptographic proof of immutability?',opts:['S3 Versioning showing version history','S3 Object Lock in Compliance mode with retention policy','S3 Replication verification','CloudTrail logging of all S3 API calls'],ans:1,exp:'Object Lock Compliance mode with a retention policy prevents all modification or deletion. Combined with S3 Object Lock legal hold, this provides auditable, cryptographically-enforced WORM storage for compliance.'},
+  {q:'Which service can automatically detect when an S3 bucket is exposed publicly AND classify sensitive data (PII, credentials) stored within it?',opts:['Amazon GuardDuty','Amazon Macie','AWS Config + s3-bucket-public-read-prohibited rule','AWS Trusted Advisor'],ans:1,exp:'Amazon Macie uses ML to discover, classify, and protect sensitive data in S3, and alerts when buckets have public access or contain PII. GuardDuty detects threats but doesn\'t classify S3 data content.'},
+  {q:'A company wants EC2 instances to access DynamoDB without storing credentials anywhere on the instance. What is the correct approach?',opts:['Store access keys in /etc/environment','Use an IAM Role attached as an instance profile','Hardcode credentials in the application config','Use AWS Secrets Manager on every request'],ans:1,exp:'IAM instance profiles attach a role to EC2. The application retrieves temporary credentials automatically from the instance metadata service (IMDS) — no credentials are stored, and they rotate automatically.'},
+  {q:'What is the difference between Security Groups and Network ACLs?',opts:['They are identical — both are stateless subnet firewalls','Security Groups are stateful (instance-level); NACLs are stateless (subnet-level)','NACLs are stateful; Security Groups are stateless','Security Groups operate at the VPC level; NACLs at the instance level'],ans:1,exp:'Security Groups are stateful (return traffic is automatically allowed) and operate at the instance/ENI level. NACLs are stateless (you must explicitly allow inbound AND outbound) and operate at the subnet level — a second layer of network defense.'},
+  {q:'A company needs secrets (DB passwords, API keys) to rotate automatically every 30 days with full audit logging of every access. Which service?',opts:['AWS KMS','SSM Parameter Store (Standard Tier)','AWS Secrets Manager','S3 with server-side encryption'],ans:2,exp:'Secrets Manager provides built-in automatic rotation for supported services (RDS, Redshift, DocumentDB), fine-grained IAM access control, and integrates with CloudTrail for full audit logs. Parameter Store Standard doesn\'t support automatic rotation.'},
+  {q:'Which AWS service provides a centralized, aggregated view of security findings from GuardDuty, Macie, Inspector, and IAM Access Analyzer across all accounts?',opts:['AWS CloudTrail','Amazon CloudWatch','AWS Security Hub','AWS Control Tower'],ans:2,exp:'AWS Security Hub aggregates, normalizes, and prioritizes security findings from multiple AWS security services and third-party tools across a multi-account environment into a single dashboard with compliance scoring.'},
+];
+
+let securityState={deck:[],idx:0,score:0,answered:false};
+function startSecurityGame(){
+  securityState.deck=[...SECURITY_QS].sort(()=>Math.random()-.5);
+  securityState.idx=0;securityState.score=0;securityState.answered=false;
+  renderSecurityQ();
+}
+function renderSecurityQ(){
+  const g=securityState;if(g.idx>=g.deck.length){renderSecurityEnd();return;}
+  const q=g.deck[g.idx];const opts=[...q.opts.map((t,i)=>({t,i}))].sort(()=>Math.random()-.5);
+  const correct=opts.findIndex(o=>o.i===q.ans);
+  g._opts=opts;g._correct=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <div style="display:flex;gap:5px"><span class="badge b-hard" style="font-size:11px">Hard</span><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} ✓</span></div>
+    </div>
+    <div class="game-card" style="margin-bottom:10px"><div style="font-size:26px;margin-bottom:6px">🔐</div><div style="font-size:15px;font-weight:500;line-height:1.6">${q.q}</div></div>
+    <div id="sec-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}">${o.t}</button>`).join('')}</div>
+    <div id="sec-exp"></div>`;
+  document.getElementById('sec-opts').addEventListener('click',e=>{const b=e.target.closest('[data-idx]');if(b)chooseSecurityQ(parseInt(b.dataset.idx));});
+}
+function chooseSecurityQ(chosen){
+  const g=securityState;if(g.answered)return;g.answered=true;
+  const q=g.deck[g.idx],correct=g._correct,right=chosen===correct;
+  recordGameAnswer('Security Gauntlet',q.q,g._opts[chosen]?.t||'',q.opts[q.ans],right);
+  if(right)g.score++;
+  document.querySelectorAll('#sec-opts .game-opt').forEach((b,i)=>{b.classList.add('gd');if(i===correct)b.classList.add('g-correct');else if(i===chosen)b.classList.add('g-wrong');});
+  document.getElementById('sec-exp').innerHTML=`<div class="explanation" style="margin-top:8px">${q.exp}</div>`;
+  setTimeout(()=>{g.idx++;g.answered=false;renderSecurityQ();},right?1400:2200);
+}
+function renderSecurityEnd(){
+  const g=securityState,pct=Math.round(g.score/g.deck.length*100);
+  document.getElementById('game-area').innerHTML=`<div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div><div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('security')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+}
+
+// ── 4. DISASTER RECOVERY SPEED DRILL ──
+const DR_STRATEGIES = [
+  {name:'Backup & Restore',icon:'💾',rto:'Hours',rpo:'Hours',cost:'$',desc:'Cheapest. Back up data to S3/Glacier. Restore from scratch during an outage. Highest RTO/RPO.'},
+  {name:'Pilot Light',icon:'🕯️',rto:'Minutes–Hours',rpo:'Minutes',cost:'$$',desc:'Core components (e.g. DB replication) run minimally. Scale up remaining resources during failover.'},
+  {name:'Warm Standby',icon:'🔥',rto:'Minutes',rpo:'Seconds',cost:'$$$',desc:'A fully functional but scaled-down copy runs continuously. Scale up to full capacity on failover.'},
+  {name:'Multi-Site Active/Active',icon:'🌐',rto:'Near-zero',rpo:'Near-zero',cost:'$$$$',desc:'Full production capacity in multiple regions simultaneously. Zero downtime, highest cost.'},
+];
+
+const DR_QS = [
+  {q:'Cheapest DR option: back up data periodically to S3, restore from scratch if disaster strikes. Accepts hours of downtime.',ans:'Backup & Restore',exp:'Backup & Restore is lowest cost but highest RTO/RPO — suitable when hours of downtime are acceptable. No infrastructure runs in the DR site until needed.'},
+  {q:'A bank requires near-zero downtime and near-zero data loss, running full capacity in two AWS regions simultaneously.',ans:'Multi-Site Active/Active',exp:'Multi-Site Active/Active runs full production workloads in multiple regions at all times. Both RTO and RPO are near-zero — but it\'s the most expensive DR strategy.'},
+  {q:'Only the database replication layer runs in the DR region. Other resources must be provisioned and scaled up during a failover event.',ans:'Pilot Light',exp:'Pilot Light keeps only the critical "flame" (usually data replication) running. During failover, additional infrastructure is provisioned from AMIs, which takes time — hence higher RTO than Warm Standby.'},
+  {q:'A scaled-down but fully functional version of the application runs continuously in a second region. During failover, it is simply scaled up.',ans:'Warm Standby',exp:'Warm Standby runs a complete but smaller version of the workload. Failover only requires scaling up, giving a lower RTO than Pilot Light. Costs more than Pilot Light but less than Active/Active.'},
+  {q:'RPO: hours, RTO: hours. No infrastructure running in DR region until an outage occurs.',ans:'Backup & Restore',exp:'Backup & Restore has the weakest RPO and RTO because you must restore everything from backups. However, it is the cheapest DR option.'},
+  {q:'A company needs RTO < 5 minutes but RPO < 30 seconds. A reduced-capacity version runs in DR at all times.',ans:'Warm Standby',exp:'Warm Standby achieves low RTO (scale up the running environment) and very low RPO (continuous replication). It\'s the right balance between cost and recovery speed for most enterprises.'},
+  {q:'Which DR strategy has the LOWEST cost?',ans:'Backup & Restore',exp:'Backup & Restore stores backups in S3/Glacier at minimal cost. No compute runs in the DR region until a disaster — making it by far the cheapest but slowest recovery option.'},
+  {q:'Which DR strategy has the HIGHEST cost?',ans:'Multi-Site Active/Active',exp:'Multi-Site Active/Active runs full production infrastructure in multiple regions simultaneously — every component duplicated, at full capacity, all the time. Maximum cost, minimum RTO/RPO.'},
+];
+
+let drState={deck:[],idx:0,score:0,answered:false};
+function startDRGame(){
+  drState.deck=[...DR_QS].sort(()=>Math.random()-.5);
+  drState.idx=0;drState.score=0;drState.answered=false;
+  renderDRQ();
+}
+function renderDRExplainer(){
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%" onclick="renderGameMenu()">← Menu</button>
+    <div class="game-card" style="text-align:left;margin-bottom:10px"><div style="font-size:24px;margin-bottom:6px">🛡️</div><div style="font-size:15px;font-weight:600;margin-bottom:8px">DR Strategies — Cost vs RTO/RPO</div>${DR_STRATEGIES.map(r=>`<div style="padding:8px 0;border-bottom:1px solid var(--border)"><div style="display:flex;gap:8px;align-items:center;margin-bottom:2px"><span style="font-size:18px">${r.icon}</span><span style="font-weight:600">${r.name}</span><span class="badge b-neutral" style="font-size:10px">${r.cost}</span></div><div style="font-size:11px;color:var(--text3);margin-bottom:3px;font-family:\'IBM Plex Mono\',monospace">RTO: ${r.rto} · RPO: ${r.rpo}</div><div style="font-size:12px;color:var(--text2);line-height:1.5">${r.desc}</div></div>`).join('')}</div>
+    <button class="btn btn-game" style="width:100%" onclick="startDRGame()">Start Quiz →</button>`;
+}
+function renderDRQ(){
+  const g=drState;if(g.idx>=g.deck.length){renderDREnd();return;}
+  const q=g.deck[g.idx];
+  const opts=[...DR_STRATEGIES].sort(()=>Math.random()-.5);
+  const correct=opts.findIndex(r=>r.name===q.ans);
+  g._opts=opts;g._correct=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <div style="display:flex;gap:5px"><span class="badge b-hard" style="font-size:11px">Hard</span><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} ✓</span></div>
+    </div>
+    <div class="game-card" style="margin-bottom:10px"><div style="font-size:26px;margin-bottom:6px">🛡️</div><div style="font-size:15px;font-weight:500;line-height:1.6">${q.q}</div></div>
+    <div id="dr-opts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${opts.map((r,i)=>`<button class="game-opt" data-idx="${i}" style="text-align:center;padding:10px 6px"><span style="font-size:18px;display:block;margin-bottom:2px">${r.icon}</span><span style="font-size:12px;font-weight:600;display:block">${r.name}</span><span style="font-size:10px;color:var(--text3);display:block">${r.cost}</span></button>`).join('')}</div>
+    <div id="dr-exp"></div>`;
+  document.getElementById('dr-opts').addEventListener('click',e=>{const b=e.target.closest('[data-idx]');if(b)chooseDRQ(parseInt(b.dataset.idx));});
+}
+function chooseDRQ(chosen){
+  const g=drState;if(g.answered)return;g.answered=true;
+  const q=g.deck[g.idx],correct=g._correct,right=chosen===correct;
+  recordGameAnswer('DR Strategies',q.q,g._opts[chosen]?.name||'',q.ans,right);
+  if(right)g.score++;
+  document.querySelectorAll('#dr-opts .game-opt').forEach((b,i)=>{b.classList.add('gd');if(i===correct)b.classList.add('g-correct');else if(i===chosen)b.classList.add('g-wrong');});
+  document.getElementById('dr-exp').innerHTML=`<div class="explanation" style="margin-top:8px">${q.exp}</div>`;
+  setTimeout(()=>{g.idx++;g.answered=false;renderDRQ();},right?1400:2200);
+}
+function renderDREnd(){
+  const g=drState,pct=Math.round(g.score/g.deck.length*100);
+  document.getElementById('game-area').innerHTML=`<div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div><div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('dr')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="renderDRExplainer()">Study DR Strategies</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+}
+
+// ── 5. NETWORK & VPC GAUNTLET ──
+const NETWORK_CONCEPTS = [
+  {name:'Internet Gateway (IGW)',icon:'🌐',desc:'Enables communication between a VPC and the internet. Attached to a VPC, referenced in public subnet route tables (0.0.0.0/0 → IGW). Horizontally scaled, redundant, highly available.',rules:['Public subnets route 0.0.0.0/0 → IGW','Resources need a public or Elastic IP to communicate outbound','Stateful — no inbound filtering (Security Groups handle that)'],tip:'No IGW = no internet access, even with a public IP.'},
+  {name:'NAT Gateway',icon:'🔁',desc:'Allows instances in PRIVATE subnets to initiate outbound internet connections (e.g. OS patches) while blocking all unsolicited inbound traffic. Deployed in a PUBLIC subnet.',rules:['Lives in a public subnet','Private subnet route table: 0.0.0.0/0 → NAT Gateway','Managed, highly available within an AZ — deploy one per AZ for full HA','Charged per hour + per GB processed'],tip:'NAT Gateway = outbound only for private subnets. Traffic to S3/DynamoDB should use a Gateway Endpoint to avoid NAT charges.'},
+  {name:'Security Group',icon:'🛡️',desc:'Virtual stateful firewall at the instance (ENI) level. Controls inbound and outbound traffic. Default: deny all inbound, allow all outbound.',rules:['Stateful — return traffic automatically allowed','Rules are ALLOW only — no explicit deny','Applied to: EC2, RDS, Lambda (in VPC), ELB, etc.','Multiple SGs can be attached to one instance'],tip:'Security Groups cannot explicitly deny — use NACLs for explicit deny rules.'},
+  {name:'Network ACL (NACL)',icon:'🧱',desc:'Stateless firewall at the SUBNET level. Evaluates rules by number (lowest first). Default NACL allows all traffic; custom NACLs deny all by default.',rules:['Stateless — must explicitly allow inbound AND outbound (including ephemeral ports)','Rules evaluated lowest number first; first match wins','Applies to all resources in the subnet','Can explicitly DENY specific IPs — Security Groups cannot'],tip:'NACLs are the only way to explicitly block a specific IP address in a VPC.'},
+  {name:'VPC Peering',icon:'🔗',desc:'Private connectivity between two VPCs (same or different accounts/regions). Traffic stays on AWS backbone. NOT transitive — peering A↔B and B↔C does NOT give A access to C.',rules:['Non-transitive — each pair needs its own peering connection','Cannot peer VPCs with overlapping CIDR ranges','Requires route table entries in both VPCs','Works across accounts and regions'],tip:'For transitive routing across many VPCs, use Transit Gateway instead.'},
+  {name:'VPC Endpoint',icon:'🔌',desc:'Private connection from your VPC to AWS services without internet, NAT, or VPN. Two types: Gateway (S3, DynamoDB — free) and Interface (most other services — hourly + data charge).',rules:['Gateway Endpoint: S3 and DynamoDB only — free, route table entry','Interface Endpoint (PrivateLink): ENI with private IP in your subnet','Eliminates NAT Gateway charges for S3/DynamoDB traffic','Required for private instances accessing AWS services without internet'],tip:'Add a Gateway Endpoint for S3 to eliminate NAT Gateway data charges for S3 traffic.'},
+  {name:'AWS Direct Connect',icon:'⚡',desc:'Dedicated private physical network connection from on-premises to AWS, bypassing the public internet. Provides consistent latency and high throughput.',rules:['Physical connection — takes weeks to provision','1 Gbps or 10 Gbps port speeds','Does NOT encrypt by default — add VPN over Direct Connect for encryption','Use Direct Connect + VPN for encrypted, redundant connectivity'],tip:'Direct Connect alone is not encrypted. For encrypted private connectivity, run a VPN tunnel over Direct Connect.'},
+  {name:'AWS Site-to-Site VPN',icon:'🔒',desc:'Encrypted IPsec tunnel between on-premises network and AWS VPC over the public internet. Quick to provision (minutes vs weeks for Direct Connect).',rules:['Two tunnels per VPN connection for redundancy','Bandwidth limited by internet connection (~1.25 Gbps max)','Connects to a Virtual Private Gateway or Transit Gateway','Encrypted by default (IPsec)'],tip:'VPN is fast to set up and encrypted; Direct Connect is private and consistent but takes weeks and is unencrypted by default.'},
+  {name:'AWS Transit Gateway',icon:'🔀',desc:'Regional hub that connects VPCs and on-premises networks through a single gateway. Supports transitive routing — one attachment, full mesh connectivity.',rules:['Transitive routing — A↔TGW↔B↔TGW↔C all communicate','Supports VPCs, VPN, Direct Connect, and inter-region peering','Route tables on the TGW control which attachments can talk','Replaces complex VPC peering meshes at scale'],tip:'Transit Gateway replaces VPC peering for 3+ VPCs. Peering becomes exponentially complex; TGW scales linearly.'},
+];
+
+const NETWORK_QS = [
+  {q:'A private EC2 instance needs to download OS updates from the internet but must block all inbound connections. What is required?',opts:['Internet Gateway on the private subnet','Elastic IP address on the private instance','NAT Gateway in a public subnet, with a route from the private subnet route table','VPN Gateway'],ans:2,exp:'A NAT Gateway in a public subnet lets private instances initiate outbound connections while blocking all unsolicited inbound traffic. Private subnet route tables point 0.0.0.0/0 → NAT Gateway.'},
+  {q:'EC2 instances in private subnets need to access S3. You want to eliminate NAT Gateway data processing charges for this traffic. What should you add?',opts:['Internet Gateway','S3 Transfer Acceleration','VPC Gateway Endpoint for S3','Direct Connect'],ans:2,exp:'A VPC Gateway Endpoint for S3 is free and routes traffic directly from your VPC to S3 over the AWS private network — bypassing the NAT Gateway and eliminating its per-GB data processing charge.'},
+  {q:'A security team needs to explicitly BLOCK a specific IP address (203.0.113.5) from reaching any instance in a subnet. Security Groups cannot do this. What can?',opts:['An additional Security Group with a Deny rule','A Network ACL with a Deny rule for that IP','Route table with a blackhole route','AWS WAF IP set rule on the subnet'],ans:1,exp:'NACLs support explicit Deny rules. Adding a NACL rule with a low rule number that Denies 203.0.113.5 blocks it at the subnet level before it reaches any instance. Security Groups only support Allow rules — there is no explicit Deny.'},
+  {q:'Three VPCs (A, B, C) are connected: A↔B peered, B↔C peered. Can A communicate with C through B?',opts:['Yes — traffic transits through B automatically','No — VPC Peering is non-transitive; A↔C requires a direct peering connection or Transit Gateway','Yes — as long as route tables in B allow it','Only if all three are in the same account'],ans:1,exp:'VPC Peering is non-transitive. A↔B and B↔C does not give A access to C. Each communicating pair needs its own peering connection. For transitive routing at scale, use AWS Transit Gateway.'},
+  {q:'A company needs to connect 15 VPCs and 3 on-premises offices so all can communicate with each other. What is the most scalable architecture?',opts:['Create a full mesh of VPC peering connections (105 peerings needed)','Use AWS Transit Gateway as a central hub for all VPCs and VPN connections','Use Direct Connect to each VPC individually','Merge all VPCs into one large VPC'],ans:1,exp:'Transit Gateway acts as a cloud router — all VPCs and VPN/Direct Connect connections attach to it. One attachment per VPC vs n(n-1)/2 peering connections. For 15 VPCs, TGW requires 15 attachments; full mesh peering would need 105 connections.'},
+  {q:'A company has Direct Connect to AWS but their security policy requires all data in transit to be encrypted. What additional component is needed?',opts:['Nothing — Direct Connect encrypts by default','Enable encryption in the Direct Connect console','Establish a Site-to-Site VPN tunnel over the Direct Connect connection','Use HTTPS at the application layer only'],ans:2,exp:'Direct Connect is a private connection but is NOT encrypted by default. The standard pattern for encrypted private connectivity is to run a Site-to-Site VPN tunnel over the Direct Connect link, combining private routing with IPsec encryption.'},
+  {q:'Which component connects a public subnet to the internet, and which connects a private subnet to the internet for outbound traffic?',opts:['IGW for both public and private subnets','IGW for public subnets (inbound + outbound); NAT Gateway in a public subnet for private subnets (outbound only)','NAT Gateway for public; IGW for private','VPN Gateway for both'],ans:1,exp:'An Internet Gateway enables two-way internet communication for resources with public IPs in public subnets. A NAT Gateway (sitting in a public subnet) provides outbound-only internet access for private subnet instances — hiding their private IPs behind the NAT.'},
+  {q:'A financial services app on EC2 calls the AWS KMS API millions of times per day. The team wants this traffic to stay entirely within the AWS network. What should they create?',opts:['VPC Gateway Endpoint for KMS','VPC Interface Endpoint for KMS','NAT Gateway pointing to KMS','Direct Connect for KMS traffic only'],ans:1,exp:'KMS is not covered by the free Gateway Endpoint (only S3 and DynamoDB are). For KMS and most other AWS services, use a VPC Interface Endpoint (powered by AWS PrivateLink). It creates an ENI in your subnet with a private IP, keeping all KMS traffic within the AWS network.'},
+  {q:'A NACL has Rule 100: Allow all traffic, Rule 200: Deny HTTP (port 80). What is the result for HTTP traffic?',opts:['Denied — Deny rules always override Allow rules in NACLs','Allowed — Rule 100 matches first; NACLs evaluate lowest-numbered rule first and stop','Allowed — Allow rules take priority','Denied — both rules apply'],ans:1,exp:'NACLs evaluate rules in ascending numerical order and stop at the first match. Rule 100 (Allow all) is evaluated before Rule 200 (Deny HTTP), so HTTP traffic is allowed. To block HTTP, the Deny rule must have a lower number than the Allow rule.'},
+  {q:'An on-premises office needs encrypted, private connectivity to a VPC that must be operational within hours. Which option meets these requirements?',opts:['Direct Connect — private and fast','Site-to-Site VPN — can be provisioned in minutes, encrypted by default','Direct Connect + VPN — most secure but takes weeks','VPC Peering — for on-premises connections'],ans:1,exp:'Site-to-Site VPN (IPsec) can be configured and operational within minutes to hours. Direct Connect requires physical provisioning that takes weeks. The VPN provides encrypted connectivity over the internet — suitable when speed of setup is the priority.'},
+  {q:'Which VPC Endpoint type is FREE and works by adding an entry to your route table?',opts:['Interface Endpoint (PrivateLink) — free with no per-hour charge','Gateway Endpoint — free, supports S3 and DynamoDB only','Both types are free','Neither — all endpoints have hourly charges'],ans:1,exp:'Gateway Endpoints are free and work by modifying route tables to direct traffic to S3 or DynamoDB through the AWS private network. Interface Endpoints (PrivateLink) have an hourly charge plus data processing fees, but support most other AWS services.'},
+  {q:'A Security Group allows all outbound traffic. An instance makes a request to an external server. The response comes back. Does the Security Group need an inbound rule to allow the response?',opts:['Yes — you must add an inbound rule for every expected response','No — Security Groups are stateful; return traffic for allowed outbound connections is automatically permitted','Yes — only if the response is on a different port','Depends on the NACL'],ans:1,exp:'Security Groups are stateful. When you allow an outbound connection, the return traffic is automatically tracked and allowed without needing an explicit inbound rule. This is the key difference from NACLs, which are stateless and require explicit rules in both directions.'},
+];
+
+const PRICING_MODELS = [
+  {name:'On-Demand',icon:'⏱️',color:'#2196f3',summary:'Pay per second/hour, no commitment. Most expensive per unit but zero upfront cost.',use:'Unknown workloads, short-term projects, testing, unpredictable spikes.',avoid:'Steady-state 24/7 workloads — Reserved Instances are far cheaper.',keyFact:'Default EC2 pricing. No SLA for capacity — in rare cases, insufficient capacity errors can occur.'},
+  {name:'Reserved Instances',icon:'📋',color:'#9c27b0',summary:'Up to 72% off On-Demand. 1 or 3-year commitment to a specific instance configuration.',use:'Steady, predictable 24/7 workloads. Baseline capacity you are confident will run long-term.',avoid:'Variable workloads, new applications with unknown usage patterns.',keyFact:'Standard RIs: locked to instance family/region. Convertible RIs: can exchange for different type. Unused Standard RIs can be sold on the RI Marketplace.'},
+  {name:'Spot Instances',icon:'⚡',color:'#ff9900',summary:'Up to 90% off On-Demand using spare AWS capacity. AWS can reclaim with 2-minute warning.',use:'Fault-tolerant, stateless, or checkpointable workloads: batch processing, ML training, video transcoding, CI/CD.',avoid:'Databases, web servers, any workload that cannot tolerate interruption.',keyFact:'Spot Instance interruption = 2-minute warning via instance metadata and EventBridge. Spot Fleet and EC2 Auto Scaling manage pools of Spot capacity.'},
+  {name:'Savings Plans',icon:'💳',color:'#4caf50',summary:'Flexible commitment ($/hr spend) for 1 or 3 years. Automatically applies to matching usage.',use:'Mixed EC2 workloads, Lambda, Fargate — anywhere you want RI-level savings without instance-type lock-in.',avoid:'Workloads that will change dramatically, or where you want zero commitment.',keyFact:'Compute Savings Plans: broadest (EC2 any family/region + Lambda + Fargate). EC2 Instance Savings Plans: one family per region, slightly higher discount.'},
+  {name:'Dedicated Hosts',icon:'🏠',color:'#e91e63',summary:'Physical server fully dedicated to you. Supports Bring Your Own License (BYOL) for host-bound software.',use:'Regulatory compliance requiring dedicated hardware. BYOL for per-socket/per-core licenses (Windows Server, SQL Server).',avoid:'General-purpose workloads — far more expensive than shared tenancy with no performance benefit.',keyFact:'Most expensive option. Billing is per host per hour. Different from Dedicated Instances (same hardware isolation but no BYOL support).'},
+  {name:'Dedicated Instances',icon:'🏢',color:'#607d8b',summary:'Instances run on hardware dedicated to a single customer, but you don\'t control host placement.',use:'Compliance requirements for hardware isolation, without needing BYOL support.',avoid:'Cost-sensitive workloads. Pricier than shared, but offers isolation without full host dedication.',keyFact:'Key exam distinction: Dedicated Hosts give you control of host placement and enable BYOL. Dedicated Instances give isolation but not placement control or BYOL.'},
+];
+
+let networkState={deck:[],idx:0,score:0,answered:false};
+function startNetworkGame(){
+  networkState.deck=[...NETWORK_QS].sort(()=>Math.random()-.5);
+  networkState.idx=0;networkState.score=0;networkState.answered=false;
+  renderNetworkQ();
+}
+function showNetworkReference(){
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:15px;font-weight:600">VPC & Networking</div>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('network')">Quiz me ⚡</button>
+    </div>
+    ${NETWORK_CONCEPTS.map(c=>`
+      <div class="card" style="padding:14px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-size:26px">${c.icon}</div>
+          <div style="font-size:15px;font-weight:600">${c.name}</div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.5">${c.desc}</div>
+        <div class="section-title" style="margin-bottom:5px">Key rules</div>
+        ${c.rules.map(r=>`<div style="font-size:12px;padding:2px 0;display:flex;gap:5px;color:var(--text2)"><span style="color:var(--text3)">•</span>${r}</div>`).join('')}
+        <div style="font-size:12px;padding:8px;background:var(--ccp-dim,#fff3e0);border-radius:6px;border-left:2px solid var(--ccp);margin-top:8px">
+          <span style="font-weight:600;color:var(--ccp)">Exam tip: </span><span style="color:var(--text2)">${c.tip}</span>
+        </div>
+      </div>`).join('')}`;
+}
+function renderNetworkQ(){
+  const g=networkState;if(g.idx>=g.deck.length){renderNetworkEnd();return;}
+  const q=g.deck[g.idx];const opts=[...q.opts.map((t,i)=>({t,i}))].sort(()=>Math.random()-.5);
+  const correct=opts.findIndex(o=>o.i===q.ans);
+  g._opts=opts;g._correct=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <div style="display:flex;gap:5px"><span class="badge b-hard" style="font-size:11px">Hard</span><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} ✓</span></div>
+    </div>
+    <div class="game-card" style="margin-bottom:10px"><div style="font-size:26px;margin-bottom:6px">🌐</div><div style="font-size:15px;font-weight:500;line-height:1.6">${q.q}</div></div>
+    <div id="net-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}">${o.t}</button>`).join('')}</div>
+    <div id="net-exp"></div>`;
+  document.getElementById('net-opts').addEventListener('click',e=>{const b=e.target.closest('[data-idx]');if(b)chooseNetworkQ(parseInt(b.dataset.idx));});
+}
+function chooseNetworkQ(chosen){
+  const g=networkState;if(g.answered)return;g.answered=true;
+  const q=g.deck[g.idx],correct=g._correct,right=chosen===correct;
+  recordGameAnswer('Network & VPC',q.q,g._opts[chosen]?.t||'',q.opts[q.ans],right);
+  if(right)g.score++;
+  document.querySelectorAll('#net-opts .game-opt').forEach((b,i)=>{b.classList.add('gd');if(i===correct)b.classList.add('g-correct');else if(i===chosen)b.classList.add('g-wrong');});
+  document.getElementById('net-exp').innerHTML=`<div class="explanation" style="margin-top:8px">${q.exp}</div>`;
+  setTimeout(()=>{g.idx++;g.answered=false;renderNetworkQ();},right?1400:2200);
+}
+function renderNetworkEnd(){
+  const g=networkState,pct=Math.round(g.score/g.deck.length*100);
+  document.getElementById('game-area').innerHTML=`<div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div><div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('network')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="showNetworkReference()">Study Networking</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+}
+
+// ── 6. WELL-ARCHITECTED DEEP DIVE ──
+const WA_HARD_QS = [
+  {q:'A company deploys all EC2 instances in a single AZ behind an ALB. The ALB spans two AZs but has no instances in the second AZ. Which pillar is violated and what is the fix?',opts:['Cost Optimization — use Spot Instances','Reliability — deploy EC2 Auto Scaling across both AZs so the ALB can route to healthy instances in either AZ','Performance Efficiency — increase instance size','Operational Excellence — add CloudWatch alarms'],ans:1,exp:'Reliability requires eliminating single points of failure. An ALB spanning multiple AZs does nothing if all compute is in one AZ — an AZ failure takes down everything. Auto Scaling across AZs with health checks ensures traffic routes to surviving instances.'},
+  {q:'An application stores user session data in EC2 instance memory. When an instance is terminated during scale-in, users are logged out. Which pillar and fix applies?',opts:['Operational Excellence — add CloudWatch alarms for session errors','Reliability — store sessions in ElastiCache (external, shared state) so any instance can serve any user','Cost Optimization — keep one instance always running','Security — encrypt session data at rest'],ans:1,exp:'Reliability\'s "design to recover from failure" means instances must be stateless and disposable. Moving session state to ElastiCache (or DynamoDB) externalises it — any instance can serve any request and instances can be terminated without impacting users.'},
+  {q:'A team manually SSHs into production EC2 instances to apply config changes and patches. Which pillar and practice should replace this?',opts:['Security — disable all SSH access','Operational Excellence — "perform operations as code"; use AWS Systems Manager for patching and configuration, with changes defined in runbooks and applied automatically','Reliability — use Multi-AZ','Cost Optimization — use Spot Instances'],ans:1,exp:'Operational Excellence\'s core principle "perform operations as code" means replacing manual, error-prone human actions with automated runbooks. AWS Systems Manager Patch Manager, Run Command, and State Manager automate patching and configuration without SSH access.'},
+  {q:'A startup deploys an application by guessing they need 20 EC2 instances at launch. After 3 months, average CPU is 8%. Which pillar addresses this, and what is the solution?',opts:['Reliability — add more instances for safety','Performance Efficiency — "stop guessing capacity"; use Auto Scaling based on actual demand metrics to provision the right amount at the right time','Cost Optimization — purchase Reserved Instances for the 20 instances','Operational Excellence — add monitoring'],ans:1,exp:'Performance Efficiency\'s principle "stop guessing capacity" means using Auto Scaling to provision based on actual demand rather than over-provisioning for peak. At 8% CPU, the instances are massively over-provisioned — Auto Scaling would have reduced the fleet and lowered costs.'},
+  {q:'An organization\'s cloud workloads use large EC2 instances that idle at 5% utilisation most of the time. Which Well-Architected pillar\'s principle most directly addresses the environmental impact of this waste?',opts:['Cost Optimization — right-size to save money','Sustainability — maximise utilisation and use efficient, right-sized resources to reduce energy consumption per unit of work','Reliability — ensure resources are available when needed','Operational Excellence — automate provisioning'],ans:1,exp:'The Sustainability pillar focuses on minimising environmental impact. Idle, over-provisioned resources consume energy without productive output. Right-sizing, using serverless (Lambda, Fargate), and adopting Graviton processors all reduce energy per unit of work — core Sustainability practices.'},
+  {q:'A team deploys updates by replacing the entire application server fleet at once, causing 15 minutes of downtime each release. Which pillar and strategy fixes this?',opts:['Cost Optimization — deploy less frequently','Operational Excellence — "make frequent, small, reversible changes"; use blue/green or rolling deployments for zero-downtime releases','Reliability — add more instances','Security — use CodePipeline with approvals'],ans:1,exp:'Operational Excellence advocates for small, reversible, frequent changes over large infrequent deployments. Blue/green deployment routes traffic to a new fleet while the old one stays live — switch traffic in seconds, roll back by reverting the route. Zero downtime, instant rollback.'},
+  {q:'A Lambda function accesses DynamoDB using hardcoded access keys stored in environment variables. Which TWO pillars are violated? (Pick the answer covering both.)',opts:['Cost Optimization and Performance Efficiency','Security (hardcoded credentials) and Operational Excellence (manual key rotation)','Security — use IAM Role/execution role instead; Reliability — hardcoded keys fail silently when rotated','Performance Efficiency and Reliability'],ans:2,exp:'Security violation: credentials should never be hardcoded — use a Lambda execution role instead. Operational Excellence violation: hardcoded credentials require manual rotation, are error-prone, and create toil. An IAM execution role provides automatic, temporary credential rotation with zero code changes.'},
+  {q:'An application fetches the same product catalog from a database on every page load. Under high traffic, the database becomes a bottleneck. Which pillar and solution applies?',opts:['Reliability — add a Multi-AZ database','Performance Efficiency — use caching (ElastiCache) to serve frequently read, rarely changed data from memory rather than querying the database every time','Cost Optimization — use a smaller database','Operational Excellence — add read replicas and monitor query counts'],ans:1,exp:'Performance Efficiency focuses on using resources efficiently. Caching static or slow-changing data (product catalog) in ElastiCache eliminates redundant database queries. Cache hit rates of 90%+ dramatically reduce DB load, reduce latency, and allow the same database to serve far more traffic.'},
+  {q:'A company\'s production database has no backups and no read replicas. An accidental DELETE query removes critical data. Which pillar\'s practice would have prevented the data loss?',opts:['Operational Excellence — audit all queries','Reliability — "test recovery procedures" and "back up data automatically"; automated backups and point-in-time recovery allow restoration after data corruption','Security — restrict DELETE permissions','Cost Optimization — use a cheaper database'],ans:1,exp:'Reliability includes automated data backup and tested recovery procedures. RDS automated backups with point-in-time recovery (PITR) allow restoration to any second within the retention window. Without backups, data loss is permanent. "Test recovery procedures" means regularly verifying you can actually restore.'},
+  {q:'A company uses AWS but has never reviewed which services they actually use vs what they provisioned. 30% of EC2 instances are idle. Which pillar and tool addresses this directly?',opts:['Reliability — use Multi-AZ for everything','Cost Optimization — use AWS Cost Explorer and Compute Optimizer to identify idle/underutilised resources and right-size or terminate them','Performance Efficiency — use larger instances','Sustainability — switch to Graviton'],ans:1,exp:'Cost Optimization\'s "identify and reduce waste" principle. Compute Optimizer uses ML to analyse CloudWatch metrics and recommend right-sizing. Cost Explorer identifies idle resources. Terminating unused instances and right-sizing over-provisioned ones are the highest-ROI cost optimisation actions.'},
+  {q:'A team is designing a new service and wants to choose an instance type now for the next 3 years. Which Performance Efficiency principle should guide them?',opts:['Commit to the largest available instance to avoid future resizing','Use commodity hardware — always choose the cheapest','Democratize advanced technologies — use managed services; "use the latest tech" — benchmark different instance types (including Graviton) and choose based on measured performance, not assumptions','Choose the same instance type your competitor uses'],ans:2,exp:'Performance Efficiency\'s "use the latest technologies" principle means adopting new instance families (Graviton3 offers better price/performance than x86 equivalents), benchmarking rather than guessing, and re-evaluating as AWS launches newer generations. Lock-in to a specific type for 3 years ignores this.'},
+  {q:'A serverless application using Lambda and DynamoDB has zero infrastructure to manage, scales automatically, and costs nothing when idle. Which TWO pillars does this architecture most directly optimise?',opts:['Security and Reliability only','Performance Efficiency (scale automatically, use managed services) and Cost Optimization (pay only for actual use, no idle capacity cost)','Operational Excellence and Sustainability only','Reliability and Sustainability only'],ans:1,exp:'Serverless optimises Performance Efficiency (auto-scaling, managed infrastructure, no capacity guessing) and Cost Optimization (pay-per-invocation, zero cost when idle, no over-provisioning). Operational Excellence also benefits (no servers to manage) but the MOST direct optimisation is on cost and performance efficiency.'},
+];
+
+let waHardState={deck:[],idx:0,score:0,answered:false};
+function startWAHardGame(){
+  waHardState.deck=[...WA_HARD_QS].sort(()=>Math.random()-.5);
+  waHardState.idx=0;waHardState.score=0;waHardState.answered=false;
+  renderWAHardQ();
+}
+function renderWAHardQ(){
+  const g=waHardState;if(g.idx>=g.deck.length){renderWAHardEnd();return;}
+  const q=g.deck[g.idx];const opts=[...q.opts.map((t,i)=>({t,i}))].sort(()=>Math.random()-.5);
+  const correct=opts.findIndex(o=>o.i===q.ans);
+  g._opts=opts;g._correct=correct;
+  document.getElementById('game-area').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <button class="btn btn-ghost" style="font-size:12px;padding:6px 10px" onclick="renderGameMenu()">← Menu</button>
+      <div style="display:flex;gap:5px"><span class="badge b-hard" style="font-size:11px">Hard</span><span class="badge b-game">${g.idx+1}/${g.deck.length}</span><span class="badge b-pass">${g.score} ✓</span></div>
+    </div>
+    <div class="game-card" style="margin-bottom:10px"><div style="font-size:26px;margin-bottom:6px">🏛️</div><div style="font-size:15px;font-weight:500;line-height:1.6">${q.q}</div></div>
+    <div id="wah-opts">${opts.map((o,i)=>`<button class="game-opt" data-idx="${i}" style="font-size:13px;text-align:left">${o.t}</button>`).join('')}</div>
+    <div id="wah-exp"></div>`;
+  document.getElementById('wah-opts').addEventListener('click',e=>{const b=e.target.closest('[data-idx]');if(b)chooseWAHardQ(parseInt(b.dataset.idx));});
+}
+function chooseWAHardQ(chosen){
+  const g=waHardState;if(g.answered)return;g.answered=true;
+  const q=g.deck[g.idx],correct=g._correct,right=chosen===correct;
+  recordGameAnswer('WA Deep Dive',q.q,g._opts[chosen]?.t||'',q.opts[q.ans],right);
+  if(right)g.score++;
+  document.querySelectorAll('#wah-opts .game-opt').forEach((b,i)=>{b.classList.add('gd');if(i===correct)b.classList.add('g-correct');else if(i===chosen)b.classList.add('g-wrong');});
+  document.getElementById('wah-exp').innerHTML=`<div class="explanation" style="margin-top:8px">${q.exp}</div>`;
+  setTimeout(()=>{g.idx++;g.answered=false;renderWAHardQ();},right?1400:2400);
+}
+function renderWAHardEnd(){
+  const g=waHardState,pct=Math.round(g.score/g.deck.length*100);
+  document.getElementById('game-area').innerHTML=`<div class="game-card"><div style="font-size:36px;margin-bottom:8px">${pct>=80?'🏆':pct>=60?'⭐':'💪'}</div><div style="font-size:32px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:var(--game)">${pct}%</div><div style="font-size:14px;color:var(--text2);margin-top:6px">${g.score} of ${g.deck.length} correct</div></div><div class="btn-row" style="margin-top:10px"><button class="btn btn-game" onclick="startGame('wahard')" style="flex:1">Play Again</button><button class="btn btn-ghost" onclick="renderGameMenu()">Menu</button></div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// HARD-TOPIC REFERENCE VIEWS
+// ═══════════════════════════════════════════════════
+
+function showPricingReference(){
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:15px;font-weight:600">EC2 Pricing Models</div>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('pricing')">Quiz me ⚡</button>
+    </div>
+    <div class="card" style="padding:12px;margin-bottom:10px;background:var(--surface2)">
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">The right pricing model can cut your EC2 bill by up to 90%. The key question is always: <strong>how predictable and fault-tolerant is the workload?</strong></div>
+    </div>
+    ${PRICING_MODELS.map(m=>`
+      <div class="card" style="padding:14px;margin-bottom:10px;border-left:3px solid ${m.color}">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-size:26px">${m.icon}</div>
+          <div style="font-size:15px;font-weight:600">${m.name}</div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:8px;line-height:1.5">${m.summary}</div>
+        <div style="font-size:12px;margin-bottom:4px"><span style="color:var(--pass);font-weight:600">✓ Use when:</span> <span style="color:var(--text2)">${m.use}</span></div>
+        <div style="font-size:12px;margin-bottom:8px"><span style="color:var(--fail);font-weight:600">✗ Avoid when:</span> <span style="color:var(--text2)">${m.avoid}</span></div>
+        <div style="font-size:12px;padding:8px;background:var(--ccp-dim,#fff3e0);border-radius:6px;border-left:2px solid var(--ccp)">
+          <span style="font-weight:600;color:var(--ccp)">Key fact: </span><span style="color:var(--text2)">${m.keyFact}</span>
+        </div>
+      </div>`).join('')}`;
+}
+
+function showMigrationReference(){
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:15px;font-weight:600">Migration Strategies — The 6 Rs</div>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('migration')">Quiz me ⚡</button>
+    </div>
+    <div class="card" style="padding:12px;margin-bottom:10px;background:var(--surface2)">
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">The 6 Rs describe how to migrate each application from on-premises to cloud. In practice, 30–40% of apps are Rehosted, 10–20% are Retired, and the rest are spread across the other strategies.</div>
+    </div>
+    ${SIX_RS.map(r=>`
+      <div class="card" style="padding:14px;margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <div style="font-size:26px">${r.icon}</div>
+          <div><div style="font-size:15px;font-weight:600">${r.name}</div><span class="badge b-neutral" style="font-size:11px;margin-top:3px">${r.hint}</span></div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5">${r.desc}</div>
+      </div>`).join('')}`;
+}
+
+function showDRReference(){
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="renderRefMenu()">← Back to References</button>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:15px;font-weight:600">Disaster Recovery Strategies</div>
+      <button class="btn btn-ref" style="font-size:12px;padding:6px 12px" onclick="startGame('dr')">Quiz me ⚡</button>
+    </div>
+    <div class="card" style="padding:12px;margin-bottom:10px;background:var(--surface2)">
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">DR strategies trade cost against RTO (Recovery Time Objective — how long to recover) and RPO (Recovery Point Objective — how much data loss is acceptable). Lower RTO/RPO = higher cost.</div>
+    </div>
+    ${DR_STRATEGIES.map((r,i)=>`
+      <div class="card" style="padding:14px;margin-bottom:10px;border-left:3px solid ${['#4caf50','#ff9900','#e91e63','#9c27b0'][i]}">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <div style="font-size:26px">${r.icon}</div>
+          <div><div style="font-size:15px;font-weight:600">${r.name}</div>
+          <span class="badge b-neutral" style="font-size:11px;margin-top:3px">${r.cost} cost</span></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:8px;flex-wrap:wrap">
+          <span style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text2)">RTO: <strong>${r.rto}</strong></span>
+          <span style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text2)">RPO: <strong>${r.rpo}</strong></span>
+        </div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5">${r.desc}</div>
+      </div>`).join('')}
+    <div class="card" style="padding:12px;background:var(--surface2)">
+      <div class="section-title" style="margin-bottom:6px">Cost vs RTO/RPO at a glance</div>
+      <div style="font-size:12px;color:var(--text2);font-family:'IBM Plex Mono',monospace;line-height:2">
+        Backup &amp; Restore → Pilot Light → Warm Standby → Active/Active<br>
+        Cost: $ → $$ → $$$ → $$$$<br>
+        RTO: Hours → Minutes-Hours → Minutes → Near-zero<br>
+        RPO: Hours → Minutes → Seconds → Near-zero
+      </div>
+    </div>`;
 }
