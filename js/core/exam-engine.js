@@ -159,9 +159,11 @@ function renderHome() {
 // ═══════════════════════════════════════════════════
 function renderBank() {
   const domain=document.getElementById('filter-domain').value;
+  const difficulty=document.getElementById('filter-difficulty').value;
   const status=document.getElementById('filter-status').value;
   let qs=getQuestions().filter(q=>{
     if(domain&&q.domain!==domain) return false;
+    if(difficulty&&q.difficulty!==difficulty) return false;
     if(status==='failed'&&!state.failedIds[q.id]) return false;
     if(status==='passed'&&!state.passedIds[q.id]) return false;
     if(status==='unseen'&&state.seenIds[q.id]) return false;
@@ -174,6 +176,7 @@ function renderBank() {
         <div class="q-list-text">${q.text}</div>
         <div class="tag-row">
           <span class="badge b-neutral">${q.domain}</span>
+          ${q.difficulty?`<span class="badge b-${q.difficulty}">${q.difficulty}</span>`:''}
           ${currentExam==='all'?q.exams.map(e=>`<span class="badge b-${e}">${e.toUpperCase()}</span>`).join(''):''}
           ${state.failedIds[q.id]?`<span class="badge b-fail">${state.failedIds[q.id]}✗</span>`:''}
           ${state.passedIds[q.id]&&!state.failedIds[q.id]?'<span class="badge b-pass">✓</span>':''}
@@ -199,6 +202,7 @@ function viewQuestion(id) {
     <div class="q-card">
       <div class="q-meta">
         <span class="badge b-neutral">${q.domain}</span>
+        ${q.difficulty?`<span class="badge b-${q.difficulty}">${q.difficulty}</span>`:''}
         ${q.exams.map(e=>`<span class="badge b-${e}">${e.toUpperCase()}</span>`).join('')}
         ${state.failedIds[q.id]?`<span class="badge b-fail">Failed ${state.failedIds[q.id]}×</span>`:''}
         ${state.passedIds[q.id]?'<span class="badge b-pass">Passed</span>':''}
@@ -215,9 +219,10 @@ function viewQuestion(id) {
 // ═══════════════════════════════════════════════════
 // EXAM ENGINE
 // ═══════════════════════════════════════════════════
-function getFilteredQuestions(count, domain, pool) {
+function getFilteredQuestions(count, domain, difficulty, pool) {
   let qs=getQuestions().filter(q=>{
     if(domain&&q.domain!==domain) return false;
+    if(difficulty&&difficulty!=='all'&&q.difficulty!==difficulty) return false;
     if(pool==='failed'&&!state.failedIds[q.id]) return false;
     if(pool==='unseen'&&state.seenIds[q.id]) return false;
     return true;
@@ -228,10 +233,12 @@ function getFilteredQuestions(count, domain, pool) {
 function startExam() {
   const count=parseInt(document.getElementById('exam-count').value)||20;
   const domain=document.getElementById('exam-domain').value;
+  const difficulty=document.getElementById('exam-difficulty').value;
   const pool=document.getElementById('exam-pool').value;
-  const qs=getFilteredQuestions(count,domain,pool);
+  const qs=getFilteredQuestions(count,domain,difficulty,pool);
   if(!qs.length){ alert('No questions match. Adjust filters.'); return; }
-  launchExam(qs,`${domain||'All Domains'} · ${pool==='all'?'Mixed':pool==='failed'?'Failed':'Unseen'}`);
+  const diffLabel=difficulty==='hard'?'Hard (Exam-Style)':difficulty==='easy'?'Easy':'Mixed';
+  launchExam(qs,`${domain||'All Domains'} · ${diffLabel} · ${pool==='all'?'All':pool==='failed'?'Failed':'Unseen'}`);
 }
 function startQuickExam() {
   const qs=getQuestions().sort(()=>Math.random()-.5).slice(0,10);
@@ -267,6 +274,7 @@ function renderExamQ() {
     <div class="q-card">
       <div class="q-meta">
         <span class="badge b-neutral">${q.domain}</span>
+        ${q.difficulty?`<span class="badge b-${q.difficulty}">${q.difficulty}</span>`:''}
         ${currentExam==='all'?q.exams.map(e=>`<span class="badge b-${e}">${e.toUpperCase()}</span>`).join(''):''}
       </div>
       <div class="q-text">${q.text}</div>

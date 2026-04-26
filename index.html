@@ -107,6 +107,11 @@
 <div id="screen-bank" class="screen">
   <div class="filter-row">
     <select id="filter-domain" onchange="renderBank()" style="flex:1;min-width:130px"></select>
+    <select id="filter-difficulty" onchange="renderBank()">
+      <option value="">All levels</option>
+      <option value="easy">Easy</option>
+      <option value="hard">Hard</option>
+    </select>
     <select id="filter-status" onchange="renderBank()">
       <option value="">All</option>
       <option value="failed">Failed</option>
@@ -134,6 +139,12 @@
     <input type="number" id="exam-count" value="20" min="5" max="200" style="width:100%">
     <div class="config-label">Domain</div>
     <select id="exam-domain" style="width:100%"></select>
+    <div class="config-label">Difficulty</div>
+    <select id="exam-difficulty" style="width:100%">
+      <option value="all">All levels</option>
+      <option value="easy">Easy only</option>
+      <option value="hard">Hard (exam-style) only</option>
+    </select>
     <div class="config-label">Question pool</div>
     <select id="exam-pool" style="width:100%">
       <option value="all">All questions</option>

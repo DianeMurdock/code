@@ -328,6 +328,10 @@ h1,h2,h3 {
 .b-pass {background:var(--pass-dim);color:var(--pass)}
 .b-fail {background:var(--fail-dim);color:var(--fail)}
 .b-neutral {background:var(--surface3);color:var(--text2)}
+.b-easy {background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.b-hard {background:#fce4ec;color:#c62828;border:1px solid #ef9a9a}
+body:not(.light) .b-easy {background:#1b3a1f;color:#81c784;border-color:#2e5c33}
+body:not(.light) .b-hard {background:#3e1a1a;color:#ef9a9a;border-color:#7c2d2d}
 
 /* ── QUESTION CARD ── */
 .q-card {
