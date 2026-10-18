@@ -72,9 +72,9 @@ body.landing-page {
   border-bottom:1px solid rgba(155,190,235,.14);
 }
 
-.landing-brand { display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:600;letter-spacing:-.02em;white-space:nowrap; }
-.landing-brand>span:last-child>span { color:#9fb3d0;font-weight:400; }
-.landing-brand-mark { display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--landing-blue);color:#0b1b32;font-size:19px; }
+.landing-brand { display:inline-flex;align-items:center;gap:.22em;font-size:18px;font-weight:600;letter-spacing:-.01em;white-space:nowrap; }
+.landing-brand>span:last-child>span { color:inherit;font-weight:inherit; }
+.landing-brand-mark { display:inline;flex:none;width:auto;height:auto;border-radius:0;background:transparent;color:inherit;font-size:inherit;line-height:inherit; }
 .landing-nav-links { display:flex;align-items:center;gap:30px;font-size:12px;color:#b1c3de; }
 .landing-nav-links>a:not(.landing-nav-cta):hover,.landing-text-link:hover,.landing-footer>a:last-child:hover { color:var(--landing-blue); }
 .landing-hero {
@@ -82,20 +82,20 @@ body.landing-page {
   grid-template-columns:1.1fr .9fr;
   align-items:center;
   gap:44px;
-  min-height:470px;
-  padding:48px 0;
+  min-height:400px;
+  padding:24px 0;
 }
 
 .landing-eyebrow { display:flex;align-items:center;gap:9px;color:var(--landing-blue);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.15em; }
 .landing-eyebrow>span { width:7px;height:7px;border-radius:50%;background:var(--landing-blue);box-shadow:0 0 14px rgba(114,183,255,.7); }
-.landing-hero h1 { margin-top:18px;font-size:clamp(46px,5vw,68px);line-height:1;letter-spacing:-.065em;font-weight:600; }
+.landing-hero h1 { margin-top:0;font-size:clamp(46px,5vw,68px);line-height:1;letter-spacing:-.065em;font-weight:600; }
 .landing-hero h1 em { color:var(--landing-blue);font-style:normal; }
 .landing-lede { max-width:550px;margin-top:18px;color:#aabbd3;font-size:15px;line-height:1.75; }
 .landing-hero-actions { display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:24px; }
 .landing-button-primary { background:var(--landing-blue);color:#0b1b32!important; }
 .landing-button-primary:hover { background:#9bceff; }
 .landing-proof { display:flex;align-items:center;gap:9px;margin-top:22px;color:#97abc8;font-size:11px; }
-.landing-proof-icon { display:grid;place-items:center;width:17px;height:17px;border:1px solid #5278a5;border-radius:50%;color:var(--landing-blue);font-size:10px; }
+.landing-proof-icon { display:grid;place-items:center;width:17px;height:17px;font-size:13px; }
 
 .landing-hero-art { position:relative;display:grid;place-items:center;min-height:360px;isolation:isolate; }
 .landing-hero-art:before { content:"";position:absolute;inset:8% 9%;z-index:-2;border-radius:50%;background:radial-gradient(ellipse,rgba(72,139,220,.2),rgba(72,139,220,0) 68%); }
@@ -120,7 +120,7 @@ body.landing-page {
 .landing-preview-arrow { color:#9bb2d3;font-size:13px; }
 .landing-float { position:absolute;display:grid;place-items:center;width:39px;height:39px;border:1px solid rgba(175,207,247,.2);border-radius:12px;background:#182944;box-shadow:0 10px 24px rgba(0,0,0,.25);font-size:18px; }
 .landing-float-cloud { top:12%;right:13%; }
-.landing-float-code { top:36%;left:3%;color:#8fe0ed;font-family:'IBM Plex Mono',monospace; }
+.landing-float-code { top:36%;left:3%; }
 .landing-float-ai { right:7%;bottom:12%;color:var(--landing-blue); }
 
 .landing-stat-strip { display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid rgba(155,190,235,.14);padding:21px 0;margin-bottom:56px; }
@@ -152,7 +152,7 @@ body.landing-page {
 .landing-practice-band .landing-section-heading { margin-bottom:20px; }
 .landing-practice-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:10px; }
 .landing-practice-card { display:flex;flex-direction:column;min-height:222px;padding:16px;background:rgba(13,25,43,.78); }
-.landing-practice-icon { color:var(--landing-blue);font-size:21px; }
+.landing-practice-icon { font-size:22px; }
 .landing-practice-kicker { margin-top:13px;color:#9ab4d9;font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em; }
 .landing-practice-card h3 { margin-top:8px; }
 .landing-practice-card p { margin-bottom:6px; }
@@ -170,7 +170,6 @@ body.landing-page {
 .landing-final-cta .landing-eyebrow { font-size:8px; }
 .landing-footer { display:flex;justify-content:space-between;align-items:center;gap:20px;padding:19px 0 26px;border-top:1px solid rgba(155,190,235,.14);color:#8fa3c1;font-size:9px; }
 .landing-footer .landing-brand { font-size:12px; }
-.landing-footer .landing-brand-mark { width:24px;height:24px;border-radius:7px;font-size:15px; }
 .landing-footer>a:last-child { color:#c4d4ec;font-size:10px; }
 
 body.landing-page.light {
@@ -189,8 +188,6 @@ body.landing-page.light {
 }
 
 .landing-page.light .landing-nav { border-color:#dce5f0; }
-.landing-page.light .landing-brand>span:last-child>span { color:#657895; }
-.landing-page.light .landing-brand-mark { color:#fff; }
 .landing-page.light .landing-nav-links { color:#435a77; }
 .landing-page.light .landing-eyebrow>span { box-shadow:0 0 12px rgba(23,105,194,.28); }
 .landing-page.light .landing-lede,.landing-page.light .landing-section-heading>p { color:#526883; }
@@ -198,7 +195,6 @@ body.landing-page.light {
 .landing-page.light .landing-button-primary:hover { background:#0d56a4; }
 .landing-page.light .landing-button-secondary { color:#344a66; }
 .landing-page.light .landing-proof { color:#5c718c; }
-.landing-page.light .landing-proof-icon { border-color:#7691b2; }
 .landing-page.light .landing-hero-art:before { background:radial-gradient(ellipse,rgba(50,126,207,.13),rgba(50,126,207,0) 68%); }
 .landing-page.light .landing-orbit { border-color:rgba(41,105,171,.2); }
 .landing-page.light .landing-preview { border-color:#d3dfed;background:linear-gradient(145deg,#fff,#edf3fb);box-shadow:0 24px 60px rgba(30,65,105,.13); }
@@ -239,8 +235,7 @@ body.landing-page.light {
 @media(max-width:640px) {
   .landing-nav,.landing-hero,.landing-section,.landing-practice-band,.landing-final-cta,.landing-footer,.landing-stat-strip { width:calc(100% - 32px); }
   .landing-nav { padding:17px 0; }
-  .landing-brand { font-size:12px; }
-  .landing-brand-mark { width:26px;height:26px; }
+  .landing-brand { font-size:16px; }
   .landing-nav-links { gap:8px; }
   .landing-nav-links>a:not(.landing-nav-cta) { display:none; }
   .landing-hero { grid-template-columns:1fr;gap:16px;padding:40px 0 30px; }
