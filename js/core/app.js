@@ -18,13 +18,37 @@ const EXAMS = {
   ref:  { name:'AWS References', code:'REF', color:'--ref', btnClass:'btn-ref', fillClass:'fill-ref', questions: [] },
   'finops-hub': { name:'FinOps Games & Resources', code:'FINOPS', color:'--finops', btnClass:'btn-finops', fillClass:'fill-finops', questions: [] }
 };
-EXAMS.all.questions = [...CCP_QUESTIONS, ...SAA_QUESTIONS, ...DVA_QUESTIONS].filter((q,i,arr) => arr.findIndex(x=>x.id===q.id)===i);
+EXAMS.all.questions = [...CCP_QUESTIONS, ...SAA_QUESTIONS, ...DVA_QUESTIONS, ...AI_PRACTITIONER_QUESTIONS].filter((q,i,arr) => arr.findIndex(x=>x.id===q.id)===i);
 EXAMS.game.questions = EXAMS.all.questions;
 EXAMS.ref.questions  = EXAMS.all.questions;
 
 // ═══════════════════════════════════════════
 // CERTIFICATION DROPDOWN
 // ═══════════════════════════════════════════
+
+const CERT_LABELS = {
+  game:{icon:'🎮',name:'AWS Games'},
+  ref:{icon:'📚',name:'AWS References'},
+  'tf-games':{icon:'⚡',name:'Terraform Games'},
+  'k8s-games':{icon:'🎪',name:'Kubernetes Games'},
+  'finops-hub':{icon:'📊',name:'FinOps Games & Resources'},
+  ccp:{icon:'☁️',name:'AWS Cloud Practitioner'},
+  saa:{icon:'🏗️',name:'AWS Solutions Architect'},
+  dva:{icon:'⚙️',name:'AWS Developer Associate'},
+  ai:{icon:'🤖',name:'AWS AI Practitioner'},
+  finops:{icon:'💸',name:'FinOps Certified Practitioner'},
+  all:{icon:'🔀',name:'AWS Combined Practice'},
+  terraform:{icon:'🔧',name:'Terraform Associate'},
+  ckad:{icon:'☸️',name:'Kubernetes CKAD'}
+};
+
+function updateSelectedCert(cert) {
+  const selected=CERT_LABELS[cert];
+  if(!selected) return;
+  document.getElementById('selected-cert-icon').textContent=selected.icon;
+  document.getElementById('selected-cert-name').textContent=selected.name;
+  document.querySelectorAll('.cert-option').forEach(option=>option.classList.toggle('selected',option.dataset.cert===cert));
+}
 
 function toggleCertDropdown() {
   const dd = document.getElementById('cert-dropdown');
@@ -34,25 +58,7 @@ function toggleCertDropdown() {
 }
 
 function selectCert(cert) {
-  const map = {
-    game:{icon:'🎮',name:'AWS Games'},
-    ref:{icon:'📚',name:'AWS References'},
-    'tf-games':{icon:'⚡',name:'Terraform Games'},
-    'k8s-games':{icon:'🎪',name:'Kubernetes Games'},
-    'finops-hub':{icon:'💹',name:'FinOps Games & Resources'},
-    ccp:{icon:'☁️',name:'AWS Cloud Practitioner'},
-    saa:{icon:'🏗️',name:'AWS Solutions Architect'},
-    dva:{icon:'⚙️',name:'AWS Developer Associate'},
-    ai:{icon:'🤖',name:'AWS AI Practitioner'},
-    finops:{icon:'💹',name:'FinOps Certified Practitioner'},
-    all:{icon:'🔀',name:'AWS Combined Practice'},
-    terraform:{icon:'🔧',name:'Terraform Associate'},
-    ckad:{icon:'☸️',name:'Kubernetes CKAD'}
-  };
-  const d = map[cert];
-  document.getElementById('selected-cert-icon').textContent = d.icon;
-  document.getElementById('selected-cert-name').textContent = d.name;
-  document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === cert));
+  updateSelectedCert(cert);
   toggleCertDropdown();
   switchExam(cert);
 }
@@ -73,7 +79,12 @@ document.addEventListener('click', function(e) {
 load();                       // restore saved progress
 initTheme();                  // apply saved theme
 populateDomainSelects();      // fill domain dropdowns
-switchExam('game');           // start on games screen
+const startupParams = new URLSearchParams(window.location.search);
+const startupExam = startupParams.get('exam');
+const validStartupExam = startupExam && Object.prototype.hasOwnProperty.call(CERT_LABELS, startupExam) ? startupExam : 'game';
+switchExam(validStartupExam);
+const startupScreen = startupParams.get('screen');
+if(startupExam===validStartupExam && ['home','bank','exam-config','failed','history'].includes(startupScreen)) showScreen(startupScreen);
 
 console.log('✅ Multi-Cert Study Hub loaded');
 console.log('📚 Questions:', {
@@ -83,7 +94,6 @@ console.log('📚 Questions:', {
   FCP:  EXAMS.finops.questions.length,
   TF:   EXAMS.terraform.questions.length,
   CKAD: EXAMS.ckad.questions.length,
-  FinOps: EXAMS.finops.questions.length,
   AI:   EXAMS.ai.questions.length,
   All:  EXAMS.all.questions.length
 });

@@ -1820,6 +1820,59 @@ let k8sState = {
   matchPairs:[], matchSel:null, matchMatched:0, matchWrong:0, matchStart:0,
 };
 
+const K8S_STUDY_GUIDES = [
+  {
+    id:'design-build',icon:'🧱',title:'Application Design & Build',
+    summary:'Workloads, containers, storage, and resource requirements.',
+    sections:[
+      {title:'Choose the right workload',body:'A Pod is the smallest deployable unit and can run one or more tightly coupled containers. Use a Deployment for stateless applications that need replicas and rolling updates, a StatefulSet for stable identities or persistent storage, and a DaemonSet to run a Pod on selected nodes.'},
+      {title:'Jobs and scheduled work',body:'A Job runs work to completion and can retry failed Pods. A CronJob creates Jobs on a schedule. Set completion, parallelism, and retry behavior to match the task, and avoid relying on a Pod to remain available after its work is done.'},
+      {title:'Storage and configuration',body:'Volumes make data available to containers in a Pod; their lifecycle depends on the volume type. PersistentVolumes and PersistentVolumeClaims separate storage provisioning from an application’s request for storage. Use ConfigMaps for non-sensitive configuration and Secrets for sensitive values.'},
+      {title:'Resource requests and limits',body:'Requests describe the CPU and memory a container needs and inform scheduling. Limits cap consumption. A memory limit can lead to termination when exceeded; CPU throttling can occur above a CPU limit. Set values based on observed application needs.'}
+    ]
+  },
+  {
+    id:'deployment',icon:'🚀',title:'Application Deployment',
+    summary:'Apply manifests, scale workloads, and manage rollouts safely.',
+    sections:[
+      {title:'Declarative workflow',body:'Keep desired state in manifests and use `kubectl apply -f manifest.yaml` to create or update resources. Use labels to identify related resources and selectors to connect controllers and Services to the intended Pods. Check the resulting objects with `kubectl get` and `kubectl describe`.'},
+      {title:'Scaling and updates',body:'Scale a Deployment with `kubectl scale deployment/my-app --replicas=3` or set replicas in its manifest. A rolling update gradually replaces Pods according to its strategy; `maxSurge` and `maxUnavailable` control availability during the rollout.'},
+      {title:'Rollout checks and recovery',body:'Use `kubectl rollout status deployment/my-app` to follow an update and `kubectl rollout history` to inspect revisions. If a rollout is unhealthy, inspect Pods, events, and the Deployment before using `kubectl rollout undo deployment/my-app` to return to the previous revision.'},
+      {title:'Imperative commands',body:'Imperative commands are useful for quick tasks and exam scenarios, such as creating a Job or scaling a Deployment. For repeatable workloads, capture the intended configuration in a manifest and apply it declaratively so changes can be reviewed and reproduced.'}
+    ]
+  },
+  {
+    id:'observability',icon:'🔎',title:'Observability & Maintenance',
+    summary:'Check health, inspect failures, and understand application behavior.',
+    sections:[
+      {title:'Probe semantics',body:'A startup probe gives a slow-starting container time to initialize before liveness or readiness checks take over. A liveness probe detects a container that should be restarted. A readiness probe controls whether a Pod receives Service traffic; a failed readiness check does not itself restart the container.'},
+      {title:'Inspect cluster state',body:'Start with `kubectl get` to see resource status, then use `kubectl describe` for conditions, recent events, and scheduling details. Events and container state can reveal image-pull failures, failed mounts, probe errors, or resource pressure.'},
+      {title:'Logs and container access',body:'Use `kubectl logs my-pod` to inspect container output; add `-c app-container` for a specific container in a multi-container Pod and `--previous` for the prior terminated container. `kubectl exec -it my-pod -- sh` opens a shell in a running container for diagnosis.'},
+      {title:'Debug from the symptom',body:'If a Pod is Pending, check scheduling constraints, resource requests, and volume claims. If it is restarting, inspect its last termination state, events, logs, and probes. If it is Running but unreachable, verify readiness, Service selectors, and endpoints.'}
+    ]
+  },
+  {
+    id:'configuration-security',icon:'🔐',title:'Environment, Configuration & Security',
+    summary:'Configure applications and apply Kubernetes access and runtime controls.',
+    sections:[
+      {title:'Configuration and secrets',body:'ConfigMaps provide non-sensitive values through environment variables, command arguments, or mounted files. Secrets provide sensitive values through similar mechanisms, but access should still be restricted and storage protected; a Secret is not automatically safe merely because its data is encoded.'},
+      {title:'ServiceAccounts and RBAC',body:'A ServiceAccount gives a workload an identity when it communicates with the Kubernetes API. A Role grants permissions within a namespace and a ClusterRole can grant cluster-scoped permissions. Bind permissions to identities with a RoleBinding or ClusterRoleBinding, following least privilege.'},
+      {title:'Pod and container security',body:'Use a security context to control runtime settings such as the user and group IDs, privilege escalation, Linux capabilities, and filesystem access. Prefer non-root execution, drop unneeded capabilities, and avoid privileged containers unless there is a clear requirement.'},
+      {title:'Namespaces and access boundaries',body:'Namespaces organize namespaced resources and provide a scope for names and many access controls. They are not, by themselves, a complete security boundary. Combine least-privilege RBAC with appropriate Pod security settings and network controls.'}
+    ]
+  },
+  {
+    id:'services-networking',icon:'🌐',title:'Services & Networking',
+    summary:'Expose Pods reliably and understand service discovery and traffic rules.',
+    sections:[
+      {title:'Service types',body:'ClusterIP exposes a stable virtual IP inside the cluster and is the default Service type. NodePort exposes a port on cluster nodes. LoadBalancer requests an external load balancer when supported by the environment. Choose exposure based on who needs to reach the application.'},
+      {title:'Selectors and ports',body:'A Service selector matches Pod labels to build its endpoints. `port` is the Service port clients use, while `targetPort` is the port on the selected Pods. If traffic fails, compare the labels, selector, named or numeric ports, and the Service endpoints.'},
+      {title:'Service discovery',body:'Within the cluster, workloads can discover a Service by its DNS name, for example `my-service.my-namespace.svc`. A Service gives clients a stable destination even as the set of backing Pods changes.'},
+      {title:'NetworkPolicy',body:'NetworkPolicies specify allowed Pod traffic when the cluster networking implementation enforces them. Policies select Pods and define ingress and/or egress rules; once a Pod is isolated in a direction, only traffic allowed by applicable policies is permitted. Check both the policy selectors and the cluster’s support.'}
+    ]
+  }
+];
+
 // ── Kubernetes Menu ──
 function renderK8sMenu(){
   const filteredHistory = getFilteredGameHistory();
@@ -1828,7 +1881,7 @@ function renderK8sMenu(){
   document.getElementById('game-area').innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">🎪</div>
-      <div style="font-size:17px;font-weight:600;margin-bottom:2px">Kubernetes Games</div>
+      <div style="font-size:17px;font-weight:600;margin-bottom:2px">Kubernetes Games &amp; Resources</div>
       <div style="font-size:12px;color:var(--text2)">Pods · Deployments · Services · kubectl</div>
     </div>
 
@@ -1856,6 +1909,12 @@ function renderK8sMenu(){
       </div>
     </div>
 
+    <div class="section-title" style="padding:0 2px">Study resources · CKAD domains</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      ${K8S_STUDY_GUIDES.map(guide=>`<div class="game-mode-btn" onclick="showK8sGuide('${guide.id}')"><div class="gm-icon">${guide.icon}</div><div class="gm-name">${guide.title}</div><div class="gm-desc">${guide.summary}</div></div>`).join('')}
+    </div>
+    <div class="card" style="font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:12px">These games and study notes are independent practice materials and are not official CNCF exam content.</div>
+
     ${histCount>0?`<div class="section-title" style="padding:0 2px">Recent performance</div>
     <div class="card" style="padding:10px;margin-bottom:12px;cursor:pointer" onclick="showGameHistory()">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -1865,6 +1924,20 @@ function renderK8sMenu(){
       <div style="font-size:12px;color:var(--text2);margin-top:4px">Tap to review your recent answers and mistakes</div>
     </div>`:''}
   `;
+}
+
+function showK8sGuide(id){
+  const guide=K8S_STUDY_GUIDES.find(item=>item.id===id);
+  if(!guide)return;
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%" onclick="renderK8sMenu()">← Back to Kubernetes resources</button>
+    <div class="card" style="text-align:center">
+      <div style="font-size:30px">${guide.icon}</div>
+      <div style="font-size:17px;font-weight:600">${guide.title}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">${guide.summary}</div>
+    </div>
+    ${guide.sections.map(section=>`<div class="card"><div class="section-title">${section.title}</div><div style="font-size:13px;line-height:1.6;color:var(--text2)">${section.body}</div></div>`).join('')}
+    <button class="btn btn-ckad" style="width:100%" onclick="switchExam('ckad')">Practice CKAD questions →</button>`;
 }
 
 function startK8sGame(mode){

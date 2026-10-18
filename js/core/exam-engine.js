@@ -37,6 +37,7 @@ function save() { try { localStorage.setItem('awshub_v1',JSON.stringify({failedI
 
 function switchExam(exam) {
   currentExam = exam;
+  updateSelectedCert(exam);
   document.querySelectorAll('.exam-tab').forEach(t=>t.className='exam-tab');
   const tab = document.querySelector(`[data-exam="${exam}"]`);
   if(tab) tab.classList.add(`active-${exam}`);
@@ -52,10 +53,6 @@ function switchExam(exam) {
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('screen-game').classList.add('active');
     window.scrollTo(0,0);
-    // Update dropdown to show Games as selected
-    document.getElementById('selected-cert-icon').textContent = '🎮';
-    document.getElementById('selected-cert-name').textContent = 'AWS Games';
-    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'game'));
     renderGameMenu();
     return;
   }
@@ -64,10 +61,6 @@ function switchExam(exam) {
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('screen-game').classList.add('active');
     window.scrollTo(0,0);
-    // Update dropdown to show References as selected
-    document.getElementById('selected-cert-icon').textContent = '📚';
-    document.getElementById('selected-cert-name').textContent = 'AWS References';
-    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'ref'));
     renderRefMenu();
     return;
   }
@@ -75,9 +68,6 @@ function switchExam(exam) {
     document.getElementById('mainNav').style.display='none';
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('screen-game').classList.add('active');
-    document.getElementById('selected-cert-icon').textContent = '💹';
-    document.getElementById('selected-cert-name').textContent = 'FinOps Games & Resources';
-    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'finops-hub'));
     window.scrollTo(0,0);
     renderFinOpsMenu();
     return;
@@ -97,16 +87,6 @@ function switchExam(exam) {
     window.scrollTo(0,0);
     renderK8sMenu();
     return;
-  }
-  if(exam==='ai'){
-    document.getElementById('selected-cert-icon').textContent = '🤖';
-    document.getElementById('selected-cert-name').textContent = 'AWS AI Practitioner';
-    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'ai'));
-  }
-  if(exam==='finops'){
-    document.getElementById('selected-cert-icon').textContent = '💹';
-    document.getElementById('selected-cert-name').textContent = 'FinOps Certified Practitioner';
-    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'finops'));
   }
   document.getElementById('mainNav').style.display='flex';
   populateDomainSelects();

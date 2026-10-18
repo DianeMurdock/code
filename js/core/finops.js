@@ -47,14 +47,13 @@ function renderFinOpsMenu() {
   const area=document.getElementById('game-area');
   area.innerHTML=`
     <div class="card" style="text-align:center;padding:12px 16px">
-      <div style="font-size:28px;margin-bottom:3px">💹</div>
+      <div style="font-size:28px;margin-bottom:3px">📊</div>
       <div style="font-size:17px;font-weight:600">FinOps Games &amp; Resources</div>
       <div style="font-size:12px;color:var(--text2)">FinOps Certified Practitioner · Independent study materials</div>
-      <button class="btn btn-finops" style="margin-top:10px" onclick="switchExam('finops')">Practice exam →</button>
     </div>
     <div class="section-title" style="padding:0 2px">FinOps games</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-      <div class="game-mode-btn" onclick="startFinOpsGame('quiz')"><div class="gm-tag"><span class="badge b-finops">FCP</span><span style="background:#e8f5e9;color:#2e7d32">Challenge</span></div><div class="gm-icon">💹</div><div class="gm-name">FinOps Challenge</div><div class="gm-desc">A 10-question round across the FinOps Framework domains.</div></div>
+      <div class="game-mode-btn" onclick="startFinOpsGame('quiz')"><div class="gm-tag"><span class="badge b-finops">FCP</span><span style="background:#e8f5e9;color:#2e7d32">Challenge</span></div><div class="gm-icon">🎯</div><div class="gm-name">FinOps Challenge</div><div class="gm-desc">A 10-question round across the FinOps Framework domains.</div></div>
       <div class="game-mode-btn" onclick="startFinOpsGame('flashcards')"><div class="gm-tag"><span class="badge b-finops">FCP</span><span style="background:#f3e5f5;color:#6a1b9a">Review</span></div><div class="gm-icon">🃏</div><div class="gm-name">FinOps Flashcards</div><div class="gm-desc">Review practice questions and explanations at your own pace.</div></div>
     </div>
     <div class="section-title" style="padding:0 2px">Study resources · FinOps Framework</div>
