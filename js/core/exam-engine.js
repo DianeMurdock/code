@@ -71,6 +71,17 @@ function switchExam(exam) {
     renderRefMenu();
     return;
   }
+  if(exam==='finops-hub'){
+    document.getElementById('mainNav').style.display='none';
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-game').classList.add('active');
+    document.getElementById('selected-cert-icon').textContent = '💹';
+    document.getElementById('selected-cert-name').textContent = 'FinOps Games & Resources';
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'finops-hub'));
+    window.scrollTo(0,0);
+    renderFinOpsMenu();
+    return;
+  }
   if(exam==='tf-games'){
     document.getElementById('mainNav').style.display='none';
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -91,6 +102,11 @@ function switchExam(exam) {
     document.getElementById('selected-cert-icon').textContent = '🤖';
     document.getElementById('selected-cert-name').textContent = 'AWS AI Practitioner';
     document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'ai'));
+  }
+  if(exam==='finops'){
+    document.getElementById('selected-cert-icon').textContent = '💹';
+    document.getElementById('selected-cert-name').textContent = 'FinOps Certified Practitioner';
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'finops'));
   }
   document.getElementById('mainNav').style.display='flex';
   populateDomainSelects();

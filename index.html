@@ -37,6 +37,9 @@
       <div class="cert-option" data-cert="k8s-games" onclick="selectCert('k8s-games')">
         <span class="cert-icon">🎪</span><span class="cert-name">Kubernetes Games</span><span class="cert-badge">CNCF</span>
       </div>
+      <div class="cert-option" data-cert="finops-hub" onclick="selectCert('finops-hub')">
+        <span class="cert-icon">💹</span><span class="cert-name">FinOps Games &amp; Resources</span><span class="cert-badge">FinOps</span>
+      </div>
 
       <!-- Certifications Section -->
       <div class="cert-option" data-cert="ccp" onclick="selectCert('ccp')">
@@ -50,6 +53,9 @@
       </div>
       <div class="cert-option" data-cert="ai" onclick="selectCert('ai')">
         <span class="cert-icon">🤖</span><span class="cert-name">AWS AI Practitioner | AIF-C01</span><span class="cert-badge">AWS</span>
+      </div>
+      <div class="cert-option" data-cert="finops" onclick="selectCert('finops')">
+        <span class="cert-icon">💹</span><span class="cert-name">FinOps Certified Practitioner | FCP</span><span class="cert-badge">FinOps</span>
       </div>
 
       <div class="cert-option" data-cert="terraform" onclick="selectCert('terraform')">
@@ -72,6 +78,8 @@
   <div class="exam-tab" data-exam="saa" onclick="switchExam('saa')">🏗️ Solutions<br>Architect</div>
   <div class="exam-tab" data-exam="dva" onclick="switchExam('dva')">⚙️ Developer<br>Associate</div>
   <div class="exam-tab" data-exam="ai" onclick="switchExam('ai')">🤖 AI<br>Practitioner</div>
+  <div class="exam-tab" data-exam="finops-hub" onclick="switchExam('finops-hub')">💹 FinOps<br>Games &amp; Resources</div>
+  <div class="exam-tab" data-exam="finops" onclick="switchExam('finops')">💹 FinOps<br>Practitioner</div>
   <div class="exam-tab" data-exam="tf-games" onclick="switchExam('tf-games')">⚡ Terraform<br>Games</div>
   <div class="exam-tab" data-exam="terraform" onclick="switchExam('terraform')">🔧 Terraform</div>
   <div class="exam-tab" data-exam="k8s-games" onclick="switchExam('k8s-games')">🎪 K8s<br>Games</div>
@@ -206,6 +214,7 @@
 <script src="js/data/saa-questions.js"></script>
 <script src="js/data/dva-questions.js"></script>
 <script src="js/data/ai-practitioner-questions.js"></script>
+<script src="js/data/finops-questions.js"></script>
 <script src="js/data/terraform-questions.js"></script>
 <script src="js/data/ckad-questions.js"></script>
 
@@ -213,6 +222,7 @@
 <script src="js/core/exam-engine.js"></script>
 <script src="js/core/games.js"></script>
 <script src="js/core/ai-practitioner-games.js"></script>
+<script src="js/core/finops.js"></script>
 <script src="js/core/games-terraform-k8s.js"></script>
 
 <!-- 3. App config + boot (loaded LAST) -->
