@@ -9,6 +9,7 @@ const EXAMS = {
   ccp: { name:'Cloud Practitioner', code:'CLF-C02', color:'--ccp', btnClass:'btn-ccp', fillClass:'fill-ccp', questions: CCP_QUESTIONS },
   saa: { name:'Solutions Architect', code:'SAA-C03', color:'--saa', btnClass:'btn-saa', fillClass:'fill-saa', questions: SAA_QUESTIONS },
   dva: { name:'Developer Associate', code:'DVA-C02', color:'--dva', btnClass:'btn-dva', fillClass:'fill-dva', questions: DVA_QUESTIONS },
+  ai: { name:'AI Practitioner', code:'AIF-C01', color:'--ai', btnClass:'btn-ai', fillClass:'fill-ai', questions: AI_PRACTITIONER_QUESTIONS },
   terraform: { name:'Terraform Associate', code:'TA-003', color:'--terraform', btnClass:'btn-terraform', fillClass:'fill-terraform', questions: typeof TERRAFORM_QUESTIONS !== 'undefined' ? TERRAFORM_QUESTIONS : [] },
   ckad: { name:'Kubernetes CKAD', code:'CKAD', color:'--ckad', btnClass:'btn-ckad', fillClass:'fill-ckad', questions: typeof CKAD_QUESTIONS !== 'undefined' ? CKAD_QUESTIONS : [] },
   all: { name:'Combined Practice', code:'ALL', color:'--all', btnClass:'btn-all', fillClass:'fill-all', questions: [] },
@@ -39,6 +40,7 @@ function selectCert(cert) {
     ccp:{icon:'☁️',name:'AWS Cloud Practitioner'},
     saa:{icon:'🏗️',name:'AWS Solutions Architect'},
     dva:{icon:'⚙️',name:'AWS Developer Associate'},
+    ai:{icon:'🤖',name:'AWS AI Practitioner'},
     all:{icon:'🔀',name:'AWS Combined Practice'},
     terraform:{icon:'🔧',name:'Terraform Associate'},
     ckad:{icon:'☸️',name:'Kubernetes CKAD'}
@@ -76,5 +78,6 @@ console.log('📚 Questions:', {
   DVA:  EXAMS.dva.questions.length,
   TF:   EXAMS.terraform.questions.length,
   CKAD: EXAMS.ckad.questions.length,
+  AI:   EXAMS.ai.questions.length,
   All:  EXAMS.all.questions.length
 });

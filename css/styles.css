@@ -8,6 +8,7 @@
   --ccp:#ff9900;--ccp-dim:#3d2700;--ccp-mid:#7a4800;
   --saa:#00bcd4;--saa-dim:#002a30;--saa-mid:#00606e;
   --dva:#7c4dff;--dva-dim:#1a0a40;--dva-mid:#4a2ab0;
+  --ai:#00a6a6;--ai-dim:#002b2b;--ai-mid:#006b6b;
   --terraform:#7B42BC;--terraform-dim:#1a0a2a;--terraform-mid:#5a3290;
   --ckad:#326CE5;--ckad-dim:#071540;--ckad-mid:#1a3d9e;
   --all:#4caf50;--all-dim:#0a2010;--all-mid:#266028;
@@ -26,6 +27,7 @@ body.light {
   --ccp-dim:#fff3e0;--ccp-mid:#e65c00;
   --saa-dim:#e0f7fa;--saa-mid:#006080;
   --dva-dim:#ede7f6;--dva-mid:#4527a0;
+  --ai-dim:#e0f7f7;--ai-mid:#006b6b;
   --terraform-dim:#f3e5f5;--terraform-mid:#4a148c;
   --ckad-dim:#e8eeff;--ckad-mid:#1a3d9e;
   --all-dim:#e8f5e9;--all-mid:#1b5e20;
@@ -213,6 +215,7 @@ h1,h2,h3 {
 .exam-tab.active-ccp {color:var(--ccp);border-color:var(--ccp)}
 .exam-tab.active-saa {color:var(--saa);border-color:var(--saa)}
 .exam-tab.active-dva {color:var(--dva);border-color:var(--dva)}
+.exam-tab.active-ai {color:var(--ai);border-color:var(--ai)}
 .exam-tab.active-terraform {color:var(--terraform);border-color:var(--terraform)}
 .exam-tab.active-ckad {color:var(--ckad);border-color:var(--ckad)}
 .exam-tab.active-all {color:var(--all);border-color:var(--all)}
@@ -279,6 +282,7 @@ h1,h2,h3 {
 .nav-btn.active.ccp {color:var(--ccp)}
 .nav-btn.active.saa {color:var(--saa)}
 .nav-btn.active.dva {color:var(--dva)}
+.nav-btn.active.ai {color:var(--ai)}
 .nav-btn.active.terraform {color:var(--terraform)}
 .nav-btn.active.ckad {color:var(--ckad)}
 .nav-btn.active.all {color:var(--all)}
@@ -321,6 +325,7 @@ h1,h2,h3 {
 .b-ccp {background:var(--ccp-dim);color:var(--ccp);border:1px solid var(--ccp-mid)}
 .b-saa {background:var(--saa-dim);color:var(--saa);border:1px solid var(--saa-mid)}
 .b-dva {background:var(--dva-dim);color:var(--dva);border:1px solid var(--dva-mid)}
+.b-ai {background:var(--ai-dim);color:var(--ai);border:1px solid var(--ai-mid)}
 .b-terraform {background:var(--terraform-dim);color:var(--terraform);border:1px solid var(--terraform-mid)}
 .b-ckad {background:var(--ckad-dim);color:var(--ckad);border:1px solid var(--ckad-mid)}
 .b-all {background:var(--all-dim);color:var(--all);border:1px solid var(--all-mid)}
@@ -427,6 +432,7 @@ body:not(.light) .b-hard {background:#3e1a1a;color:#ef9a9a;border-color:#7c2d2d}
 }
 
 .btn-ccp {background:var(--ccp);color:#000;border-color:var(--ccp);font-weight:600}
+.btn-ai {background:var(--ai);color:#001818;border-color:var(--ai);font-weight:600}
 .btn-saa {background:var(--saa);color:#000;border-color:var(--saa);font-weight:600}
 .btn-dva {background:var(--dva);color:#fff;border-color:var(--dva);font-weight:600}
 .btn-terraform {background:var(--terraform);color:#fff;border-color:var(--terraform);font-weight:600}
@@ -453,6 +459,7 @@ body:not(.light) .b-hard {background:#3e1a1a;color:#ef9a9a;border-color:#7c2d2d}
 }
 
 .fill-ccp {background:var(--ccp)}
+.fill-ai {background:var(--ai)}
 .fill-saa {background:var(--saa)}
 .fill-dva {background:var(--dva)}
 .fill-terraform {background:var(--terraform)}

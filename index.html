@@ -48,6 +48,9 @@
       <div class="cert-option" data-cert="dva" onclick="selectCert('dva')">
         <span class="cert-icon">⚙️</span><span class="cert-name">AWS Developer Associate | DVA-C02</span><span class="cert-badge">AWS</span>
       </div>
+      <div class="cert-option" data-cert="ai" onclick="selectCert('ai')">
+        <span class="cert-icon">🤖</span><span class="cert-name">AWS AI Practitioner | AIF-C01</span><span class="cert-badge">AWS</span>
+      </div>
 
       <div class="cert-option" data-cert="terraform" onclick="selectCert('terraform')">
         <span class="cert-icon">🔧</span><span class="cert-name">Terraform Associate | TA-003</span><span class="cert-badge">HashiCorp</span>
@@ -68,6 +71,7 @@
   <div class="exam-tab" data-exam="ccp" onclick="switchExam('ccp')">☁️ Cloud<br>Practitioner</div>
   <div class="exam-tab" data-exam="saa" onclick="switchExam('saa')">🏗️ Solutions<br>Architect</div>
   <div class="exam-tab" data-exam="dva" onclick="switchExam('dva')">⚙️ Developer<br>Associate</div>
+  <div class="exam-tab" data-exam="ai" onclick="switchExam('ai')">🤖 AI<br>Practitioner</div>
   <div class="exam-tab" data-exam="tf-games" onclick="switchExam('tf-games')">⚡ Terraform<br>Games</div>
   <div class="exam-tab" data-exam="terraform" onclick="switchExam('terraform')">🔧 Terraform</div>
   <div class="exam-tab" data-exam="k8s-games" onclick="switchExam('k8s-games')">🎪 K8s<br>Games</div>
@@ -201,12 +205,14 @@
 <script src="js/data/ccp-questions.js"></script>
 <script src="js/data/saa-questions.js"></script>
 <script src="js/data/dva-questions.js"></script>
+<script src="js/data/ai-practitioner-questions.js"></script>
 <script src="js/data/terraform-questions.js"></script>
 <script src="js/data/ckad-questions.js"></script>
 
 <!-- 2. Functions (define everything, run nothing) -->
 <script src="js/core/exam-engine.js"></script>
 <script src="js/core/games.js"></script>
+<script src="js/core/ai-practitioner-games.js"></script>
 <script src="js/core/games-terraform-k8s.js"></script>
 
 <!-- 3. App config + boot (loaded LAST) -->

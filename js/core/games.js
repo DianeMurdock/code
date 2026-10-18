@@ -289,7 +289,7 @@ function renderGameMenu(){
     <div class="card" style="text-align:center;padding:12px 16px 10px">
       <div style="font-size:28px;margin-bottom:3px">🎮</div>
       <div style="font-size:17px;font-weight:600;margin-bottom:2px">AWS Games</div>
-      <div style="font-size:12px;color:var(--text2)">CCP · SAA · DVA · Support Plans · Architecture</div>
+      <div style="font-size:12px;color:var(--text2)">CCP · SAA · DVA · AI Practitioner · Support Plans · Architecture</div>
       <div style="display:flex;gap:6px;justify-content:center;margin-top:6px;flex-wrap:wrap">
         ${gameState.quizBest>0?`<span class="badge b-game">🏆 Best streak: ${gameState.quizBest}</span>`:''}
         ${histCount>0?`<span class="badge b-neutral" style="cursor:pointer" onclick="showGameHistory()">📋 ${histCount} answers · ${histWrong} wrong</span>`:''}
@@ -318,6 +318,14 @@ function renderGameMenu(){
       <div class="game-mode-btn" onclick="startGame('speed')"><div class="gm-tag"><span style="background:var(--game-dim,#e3f2fd);color:var(--game)">CCP · SAA</span><span style="background:#e8f5e9;color:#2e7d32">Medium</span></div><div class="gm-icon">🏎️</div><div class="gm-name">Speed Round</div><div class="gm-desc">3 lives, 8 seconds per question. How far can you go?</div></div>
     </div>
 
+    <div class="section-title" style="padding:0 2px">AI Practitioner games · AIF-C01</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div class="game-mode-btn" onclick="startAiGame('sprint')"><div class="gm-tag"><span style="background:var(--ai-dim);color:var(--ai)">AIF-C01</span><span style="background:#e8f5e9;color:#2e7d32">Mixed</span></div><div class="gm-icon">⚡</div><div class="gm-name">AI Concept Sprint</div><div class="gm-desc">Mixed 10-question challenge across all five exam domains.</div></div>
+      <div class="game-mode-btn" onclick="startAiGame('applications')"><div class="gm-tag"><span style="background:var(--ai-dim);color:var(--ai)">AIF-C01</span><span style="background:#e8f5e9;color:#2e7d32">Applications</span></div><div class="gm-icon">🧠</div><div class="gm-name">Model Applications</div><div class="gm-desc">Practice foundation models, prompts, RAG, and model selection.</div></div>
+      <div class="game-mode-btn" onclick="startAiGame('responsible')"><div class="gm-tag"><span style="background:var(--ai-dim);color:var(--ai)">AIF-C01</span><span style="background:#e8f5e9;color:#2e7d32">Responsible AI</span></div><div class="gm-icon">⚖️</div><div class="gm-name">Responsible AI Challenge</div><div class="gm-desc">Bias, explainability, human oversight, and safe deployment.</div></div>
+      <div class="game-mode-btn" onclick="startAiGame('flashcards')"><div class="gm-tag"><span style="background:var(--ai-dim);color:var(--ai)">AIF-C01</span><span style="background:#f3e5f5;color:#6a1b9a">Review</span></div><div class="gm-icon">🃏</div><div class="gm-name">AI Flashcards</div><div class="gm-desc">Review questions and explanations at your own pace.</div></div>
+    </div>
+
     <div class="section-title" style="padding:0 2px">Topic deep dives</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
       <div class="game-mode-btn" onclick="startGame('srmquiz')"><div class="gm-tag"><span style="background:var(--game-dim,#e3f2fd);color:var(--game)">CCP</span><span style="background:#f3e5f5;color:#6a1b9a">Easy</span></div><div class="gm-icon">🤝</div><div class="gm-name">Shared Responsibility</div><div class="gm-desc">AWS or customer? Test who owns each security task.</div></div>
@@ -329,6 +337,7 @@ function renderGameMenu(){
       <div class="game-mode-btn" onclick="startGame('monitoring')"><div class="gm-tag"><span style="background:var(--game-dim,#e3f2fd);color:var(--game)">CCP · SAA · DVA</span><span style="background:#e8f5e9;color:#2e7d32">Medium</span></div><div class="gm-icon">📊</div><div class="gm-name">Monitoring Matchup</div><div class="gm-desc">CloudWatch vs CloudTrail vs X-Ray vs GuardDuty — pick the right observability tool.</div></div>
       <div class="game-mode-btn" onclick="startGame('containers')"><div class="gm-tag"><span style="background:var(--game-dim,#e3f2fd);color:var(--game)">SAA · DVA</span><span style="background:#e8f5e9;color:#2e7d32">Medium</span></div><div class="gm-icon">🔁</div><div class="gm-name">Container Showdown</div><div class="gm-desc">ECS vs EKS vs Fargate vs Lambda vs Beanstalk — pick the right compute for each workload.</div></div>
       <div class="game-mode-btn" onclick="startGame('integration')"><div class="gm-tag"><span style="background:var(--game-dim,#e3f2fd);color:var(--game)">SAA · DVA</span><span style="background:#e8f5e9;color:#2e7d32">Medium</span></div><div class="gm-icon">⚡</div><div class="gm-name">Integration Patterns</div><div class="gm-desc">SQS vs SNS vs EventBridge vs Step Functions — two-step: pick service then pick pattern.</div></div>
+      <div class="game-mode-btn" onclick="startAiGame('deepdive')"><div class="gm-tag"><span style="background:var(--ai-dim);color:var(--ai)">AIF-C01</span><span style="background:#e8f5e9;color:#2e7d32">Quiz</span></div><div class="gm-icon">🤖</div><div class="gm-name">AI Practitioner Deep Dive</div><div class="gm-desc">Answer AI/ML topic questions with explanations across all five exam domains.</div></div>
     </div>
 
     <div class="section-title" style="padding:0 2px">Exam pressure 🔥</div>
@@ -353,6 +362,60 @@ function renderGameMenu(){
 `;
 }
 
+
+const AI_REFERENCE_GUIDES = [
+  {
+    id:'ai-ml', icon:'📊', title:'AI & Machine Learning Foundations',
+    summary:'Core ML approaches, common tasks, model training, and evaluation.',
+    sections:[
+      {title:'AI, ML, and deep learning',body:'Artificial intelligence is the broad field of systems performing tasks associated with human intelligence. Machine learning is a subset that learns patterns from data. Deep learning is a subset of ML using multi-layer neural networks.'},
+      {title:'Learning approaches',body:'Supervised learning uses labeled examples for classification or regression. Unsupervised learning finds structure in unlabeled data, such as clusters. Reinforcement learning learns actions through interaction, rewards, and penalties.'},
+      {title:'Training and evaluation',body:'Training data fits model parameters; validation data helps select models or tune settings; test data estimates performance on unseen examples. Overfitting describes strong training performance but weak generalization. Choose evaluation metrics that reflect the task and the cost of different errors.'},
+      {title:'Exam distinctions',body:'Classification predicts categories; regression predicts numeric values; clustering groups similar data without known labels. More training accuracy alone does not prove that a model will perform well in production.'}
+    ]
+  },
+  {
+    id:'ai-genai', icon:'✨', title:'Generative AI & Foundation Models',
+    summary:'How generative models work and the terms used to describe them.',
+    sections:[
+      {title:'Generative AI',body:'Generative AI creates new content such as text, images, audio, video, or code. A foundation model is trained on broad data at scale and can be adapted for many downstream tasks.'},
+      {title:'Model vocabulary',body:'Tokens are units of text processed by a language model. An embedding is a numerical vector representation that captures relationships between items. A context window limits how much input and conversation history a model can consider at once.'},
+      {title:'Output behavior',body:'Temperature influences response variability: lower settings tend toward more consistent outputs, while higher settings can produce more varied outputs. Neither setting guarantees factual correctness. Hallucinations are plausible-sounding but unsupported or incorrect outputs.'},
+      {title:'Trade-offs',body:'Compare candidate models using task quality, modality, latency, cost, context requirements, and deployment constraints. Larger or more capable models may bring higher cost and latency and should be tested against the actual use case.'}
+    ]
+  },
+  {
+    id:'ai-apps', icon:'🧩', title:'Foundation Model Applications',
+    summary:'Prompting, retrieval-augmented generation, fine-tuning, and application patterns.',
+    sections:[
+      {title:'Prompt engineering',body:'A prompt supplies instructions, context, and constraints. Few-shot prompting includes examples of the desired input and output. Clear task framing and explicit output formats can improve consistency, but outputs still need validation.'},
+      {title:'Retrieval-augmented generation (RAG)',body:'RAG retrieves relevant information from an external knowledge source and provides it to a model as context during inference. Typical steps are to prepare and index content, retrieve relevant passages for a query, then generate a grounded response. RAG is useful when knowledge changes frequently or must come from private documents.'},
+      {title:'Fine-tuning',body:'Fine-tuning adapts a pretrained model using task-specific examples. It can teach specialized response patterns or domain behavior, but requires curated data and evaluation. It is not a mechanism for automatically keeping facts current.'},
+      {title:'Choose the right approach',body:'Use prompting for instructions and examples without changing model weights. Use RAG to ground answers in external or updated knowledge. Consider fine-tuning when examples are needed to adapt model behavior consistently. These approaches can be combined.'},
+      {title:'Managed AWS services',body:'Amazon Bedrock provides managed access to foundation models and capabilities for building generative AI applications. Select models and application features according to workload needs, then evaluate quality, latency, cost, and safeguards.'}
+    ]
+  },
+  {
+    id:'ai-responsible', icon:'⚖️', title:'Responsible AI',
+    summary:'Fairness, transparency, explainability, robustness, and human oversight.',
+    sections:[
+      {title:'Principles',body:'Responsible AI considers fairness, explainability, privacy, safety, security, transparency, and robustness throughout the lifecycle. The right controls depend on the impact and context of the application.'},
+      {title:'Bias and fairness',body:'Bias can enter through data collection, labels, sampling, objectives, or deployment context. Evaluate representative data and compare outcomes across relevant groups; aggregate metrics can hide uneven performance.'},
+      {title:'Transparency and explainability',body:'Transparency communicates that AI is being used and describes relevant limitations. Explainability helps people understand factors or evidence influencing a particular output. The required level depends on the decision and its impact.'},
+      {title:'Human oversight and monitoring',body:'Use human review or escalation when outputs can materially affect people or require contextual judgment. Test realistic and edge cases before release, monitor behavior in production, and define how users can report or challenge problematic results.'}
+    ]
+  },
+  {
+    id:'ai-security', icon:'🔐', title:'AI Security, Compliance & Governance',
+    summary:'Protect data and model workflows with access control, safeguards, and oversight.',
+    sections:[
+      {title:'Data protection',body:'Minimize sensitive data sent to models, redact where appropriate, and define retention and deletion practices. Protect stored data with encryption and controlled key access. Apply access controls to datasets, prompts, logs, models, and application interfaces.'},
+      {title:'Identity and shared responsibility',body:'Grant AI application identities only the permissions they need. In managed services, the provider secures the underlying service infrastructure while customers remain responsible for their data, identities, configurations, and application use.'},
+      {title:'Threats and safeguards',body:'Consider prompt injection, unsafe or unintended outputs, data leakage, and misuse. Validate inputs and outputs, isolate untrusted content, apply appropriate guardrails, and test safeguards against realistic attacks and failure cases.'},
+      {title:'Governance and auditability',body:'Define ownership, permitted use, risk review, evaluation criteria, and escalation processes. Monitor system behavior and retain appropriately protected audit information while avoiding unnecessary collection of sensitive prompt or response content.'}
+    ]
+  }
+];
 
 function renderRefMenu(){
   const filteredHistory = getFilteredGameHistory();
@@ -388,6 +451,11 @@ function renderRefMenu(){
       <div class="game-mode-btn" onclick="showContainersReference()"><div class="gm-icon">🔁</div><div class="gm-name">Containers & Compute</div><div class="gm-desc">ECS, EKS, Fargate, Lambda, Beanstalk — side-by-side comparison.</div></div>
     </div>
 
+    <div class="section-title" style="padding:0 2px">AI Practitioner study guides · AIF-C01</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      ${AI_REFERENCE_GUIDES.map(guide=>`<div class="game-mode-btn" onclick="showAiReference('${guide.id}')"><div class="gm-icon">${guide.icon}</div><div class="gm-name">${guide.title}</div><div class="gm-desc">${guide.summary}</div></div>`).join('')}
+    </div>
+
     <div class="section-title" style="padding:0 2px">Support plans reference</div>
     <div class="card" style="padding:0;overflow:hidden">
       ${SUPPORT_PLANS.map(p=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer" onclick="showSupportDetail('${p.name}')">
@@ -407,6 +475,23 @@ function renderRefMenu(){
       <div style="font-size:12px;color:var(--text2);margin-top:4px">Tap to review your recent answers and mistakes</div>
     </div>`:''}
   `;
+}
+
+function showAiReference(id, returnTo='ref') {
+  const guide=AI_REFERENCE_GUIDES.find(item=>item.id===id);
+  if(!guide) return;
+  document.getElementById('game-area').innerHTML=`
+    <button class="btn btn-ghost" style="margin-bottom:12px;width:100%;font-size:13px" onclick="${returnTo==='game'?'renderAiDeepDiveMenu()':'renderRefMenu()'}">← Back to ${returnTo==='game'?'AI Deep Dives':'References'}</button>
+    <div class="card" style="text-align:center">
+      <div style="font-size:30px">${guide.icon}</div>
+      <div style="font-size:17px;font-weight:600">${guide.title}</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">${guide.summary}</div>
+    </div>
+    ${guide.sections.map(section=>`<div class="card">
+      <div class="section-title">${section.title}</div>
+      <div style="font-size:13px;line-height:1.6;color:var(--text2)">${section.body}</div>
+    </div>`).join('')}
+    <button class="btn btn-ai" style="width:100%;margin-top:4px" onclick="switchExam('ai')">Practice AIF-C01 questions →</button>`;
 }
 
 function showSupportDetail(name){

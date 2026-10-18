@@ -87,6 +87,11 @@ function switchExam(exam) {
     renderK8sMenu();
     return;
   }
+  if(exam==='ai'){
+    document.getElementById('selected-cert-icon').textContent = '🤖';
+    document.getElementById('selected-cert-name').textContent = 'AWS AI Practitioner';
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.toggle('selected', o.dataset.cert === 'ai'));
+  }
   document.getElementById('mainNav').style.display='flex';
   populateDomainSelects();
   showScreen('home');
